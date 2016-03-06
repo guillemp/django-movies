@@ -116,6 +116,16 @@ a.label {color:white;}
 .movie-buttons li a {float:left;display:block;margin:0;color:white;padding:5px 10px;text-align:center;}
 .movie-buttons li a:hover {text-decoration:none;}
 
+.big-buttons {background:none}
+.big-buttons li a {float:none;padding:10px 0;margin-bottom:10px;border-radius:3px}
+.big-buttons .add-remove-history {border:1px solid #16a085;background:rgba(29,29,29,.6)}
+.big-buttons .add-remove-history:hover {background:#16a085;color:white}
+.big-buttons .add-remove-watchlist {border:1px solid #8e44ad;background:rgba(29,29,29,.6)}
+.big-buttons .add-remove-watchlist:hover {background:#8e44ad;color:white}
+.big-buttons .add-remove-blocklist {border:1px solid #e74c3c;background:rgba(29,29,29,.6)}
+.big-buttons .add-remove-blocklist:hover {background:#e74c3c;color:white}
+
+
 .add-remove-history,
 .add-remove-watchlist,
 .add-remove-blocklist {
@@ -123,13 +133,13 @@ a.label {color:white;}
 }
 
 .add-remove-history:hover {background:#1d1d1d;color:#16a085}
-.history-active, .history-active:hover {background:#16a085;color:white}
+.history-active, .history-active:hover {background:#16a085 !important;color:white !important}
 
 .add-remove-watchlist:hover {background:#1d1d1d;color:#8e44ad}
-.watchlist-active, .watchlist-active:hover {background:#8e44ad;color:white}
+.watchlist-active, .watchlist-active:hover {background:#8e44ad !important;color:white !important}
 
 .add-remove-blocklist:hover {background:#1d1d1d;color:#e74c3c}
-.blocklist-active, .blocklist-active:hover {background:#e74c3c;color:white}
+.blocklist-active, .blocklist-active:hover {background:#e74c3c !important;color:white !important}
 
 .movie-buttons-year {margin-left:5px;margin-top:5px;}
 .movie-buttons-rating {margin-right:5px;margin-top:4px;}

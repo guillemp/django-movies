@@ -7,7 +7,7 @@ from django.http import HttpResponse, Http404
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Sum, Count
-from main.models import Movie, History, Watchlist, Blocklist, Person
+from main.models import Movie, History, Watchlist, Blocklist, Person, MovieCast
 from django.utils import timezone
 from movies import config
 import tmdbsimple as tmdb
@@ -17,8 +17,6 @@ import json
 import time
 
 tmdb.API_KEY = config.TMDB_KEY
-MOVIES_PER_PAGE = 30
-USERS_PER_PAGE = 30
 
 @login_required
 def movie_add(request):
@@ -63,9 +61,8 @@ def movie_save(request):
             movie = Movie.objects.get(pk=movie_id)
         except Movie.DoesNotExist:
             movie = Movie()
-            m = tmdb.Movies(movie_id)
-            response_to_movie(request, movie, m.info())
-            movie.save()
+            tmdb_movie = tmdb.Movies(movie_id)
+            response_to_movie(request, movie, tmdb_movie)
             return HttpResponse("saved")
         except Exception, e:
             return HttpResponse(str(e))
@@ -76,9 +73,9 @@ def movie_update(request):
     if request.POST:
         movie_id = request.POST.get('movie_id', None)
         try:
-            m = tmdb.Movies(movie_id)
+            tmdb_movie = tmdb.Movies(movie_id)
             movie = Movie.objects.get(pk=movie_id)
-            response_to_movie(request, movie, m.info())
+            response_to_movie(request, movie, tmdb_movie)
             movie.updated = timezone.now()
             movie.save()
             return HttpResponse("updated")
@@ -86,38 +83,47 @@ def movie_update(request):
             return HttpResponse(str(e))
     return HttpResponse("error")
 
-def add_movie_by_id(request, movie_id):
-    m = tmdb.Movies(movie_id)
-    response = m.info()
+def response_to_movie(request, movie, tmdb_movie):
+    info = tmdb_movie.info()
+    credits = tmdb_movie.credits()
     
     try:
-        movie = Movie.objects.get(pk=movie_id)
-        response_to_movie(request, movie, response)
-        movie.updated = timezone.now
+        movie.id = info['id']
+        movie.title = info['title'] or ''
+        movie.original_title = info['original_title'] or ''
+        movie.tagline = info['tagline'] or ''
+        movie.overview = info['overview'] or ''
+        movie.imdb_id = info['imdb_id'] or ''
+        movie.release_date = info['release_date'] or None
+        movie.original_language = info['original_language'] or ''
+        movie.poster_path = info['poster_path'] or ''
+        movie.backdrop_path = info['backdrop_path'] or ''
+        movie.runtime = info['runtime'] or ''
+        movie.user = request.user
         movie.save()
-    except Movie.DoesNotExist:
-        movie = Movie()
-        response_to_movie(request, movie, response)
-        movie.save()
-    
-    return movie
-
-def response_to_movie(request, movie, response):
-    movie.id = response['id']
-    movie.title = response['title'] or ''
-    movie.original_title = response['original_title'] or ''
-    movie.tagline = response['tagline'] or ''
-    movie.overview = response['overview'] or ''
-    movie.imdb_id = response['imdb_id'] or ''
-    movie.release_date = response['release_date'] or None
-    movie.original_language = response['original_language'] or ''
-    movie.poster_path = response['poster_path'] or ''
-    movie.backdrop_path = response['backdrop_path'] or ''
-    movie.runtime = response['runtime'] or ''
-    movie.user = request.user
+    except Exception, e:
+            print movie.id, movie.title, str(e)
     
     # movie cast add
+    for p in credits['cast'] or []:
+        try:
+            person = Person()
+            person.id = p['id']
+            person.name = p['name'] or ''
+            person.profile_path = p['profile_path'] or ''
+            person.save()
+        except Exception, e:
+            print movie.id, movie.title, str(e)
+        
+        order = p['order'] or 0
+        
+        try:
+            movie_cast = MovieCast(person=person, movie=movie, order=order)
+            movie_cast.save()
+        except Exception, e:
+            print movie.id, movie.title, str(e)
     
+    # get imdb rating and votes
     if movie.imdb_id:
         url = 'http://www.omdbapi.com/?i=%s&plot=short&r=json' % movie.imdb_id
         try:
@@ -133,5 +139,7 @@ def response_to_movie(request, movie, response):
                 if data['imdbVotes'] != "N/A":
                     votes = int(data['imdbVotes'].replace(",", ""))
                     movie.imdb_votes = votes
+            
+            movie.save()
         except Exception, e:
             print movie.id, movie.title, str(e)

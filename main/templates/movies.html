@@ -3,12 +3,12 @@
 	{% for movie in movies %}
 		<div class="col-xs-6 col-sm-3 col-md-2 col-lg-2" >
 			<div class="thumbnail{% if user.is_authenticated and movie|is_important:user %} important{% endif %}" id="movie-{{ movie.id }}">
-				<a href="{{ movie.url }}" title="{{ movie.title }}"><img class="poster" src="{{ movie.poster_small }}" alt="{{ movie.title }}"></a>
+				<a href="{{ movie.url }}" title="{{ movie.title }}" class="movie-poster"><img class="poster" src="{{ movie.poster_small }}" alt="{{ movie.title }}"></a>
 				<div class="movie-buttons">
 					<ul>
 						{% if user.is_authenticated %}
-						<li><a href="#" class="add-remove-history{% if movie|in_history:user %} history-active{% endif %}" data-movie-id="{{ movie.id }}">H</a></li>
-						<li><a href="#" class="add-remove-watchlist{% if movie|in_watchlist:user %} watchlist-active{% endif %}" data-movie-id="{{ movie.id }}">W</a></li>
+						<li><a href="#" class="add-remove-history{% if movie|in_history:user %} history-active{% endif %}" data-movie-id="{{ movie.id }}" title="Add to History">H</a></li>
+						<li><a href="#" class="add-remove-watchlist{% if movie|in_watchlist:user %} watchlist-active{% endif %}" data-movie-id="{{ movie.id }}" title="Add to Watchlist">W</a></li>
 						{% endif %}
 					</ul>
 					<div class="movie-buttons-year pull-left">{{ movie.release_date|date:'Y' }}</div>

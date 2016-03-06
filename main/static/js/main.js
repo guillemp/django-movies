@@ -222,17 +222,9 @@ $(function() {
     });
     
     // TOOLTIPS
-    $('.add-remove-history').tooltip({
-        title: 'Add to History',
-    });
-    
-    $('.add-remove-watchlist').tooltip({
-        title: 'Add to Watchlist',
-    });
-    
-    $('.add-remove-blocklist').tooltip({
-        title: 'Add to Blocklist',
-    });
+    $('.add-remove-history').tooltip();
+    $('.add-remove-watchlist').tooltip();
+    //$('.movie-poster').tooltip();
     
     $('.add-movie-link').tooltip({
         title: 'Add a Movie',
