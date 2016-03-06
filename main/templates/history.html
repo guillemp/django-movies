@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}{{ profile.username }}'s History{% endblock %}
+{% block content %}
+
+<div id="background-image" style="background:url({{ random_movie.backdrop }}) no-repeat center center; background-size: cover; -webkit-background-size: cover;-moz-background-size: cover; -o-background-size: cover;"></div>
+<div id="background-overlay"></div>
+
+<div class="main-content">
+
+<div class="container">
+	<h1>{% if user == profile %}My History{% else %}<a href="/{{ profile.username }}">{{ profile.username }}</a>'s History{% endif %} <small>{{ total_runtime }} hours</small></h1>
+	{% include 'movies.html' %}
+</div>
+
+</div>
+
+{% endblock %}

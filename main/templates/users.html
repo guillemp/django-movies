@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load extras %}
+{% load humanize %}
+{% block title %}Users{% if users.number > 1 %} - Page {{ users.number }}{% endif %}{% endblock %}
+{% block content %}
+
+<div class="container">
+	<div class="pull-right" style="width:200px;">
+		<form action="" method="get" autocomplete="off" role="search">
+			<div class="input-group">
+				<input type="text" name="query" value="{{ query }}" class="form-control" placeholder="Username">
+				<div class="input-group-btn">
+					<input type="submit" class="btn btn-default" value="Search">
+				</div>
+			</div>
+		</form>
+		</div>
+	<h2>Users</h2>
+	
+	<div class="row">
+	{% for user in users %}
+		<div class="col-xs-6 col-md-4 col-lg-3" style="margin-bottom:25px;">
+			<a href="/{{ user.username }}">
+				<img src="{% user_avatar user %}" class="post-avatar pull-left" style="margin-right:10px;" alt="{{ user.username }}">
+			</a>
+			<a href="/{{ user.username }}">{{ user.username }}</a><br/>
+		</div>
+		
+		{% if forloop.counter|divisibleby:2 %}
+		<!-- every 2nd col -->
+		<div class="visible-xs visible-sm clearfix divider"></div>
+		{% endif %}
+		
+		{% if forloop.counter|divisibleby:3 %}
+		<!-- every 3rd col -->
+		<div class="visible-md clearfix divider"></div>
+		{% endif %}
+		
+		{% if forloop.counter|divisibleby:4 %}
+		<!-- and every 4th col -->
+		<div class="visible-xs visible-sm visible-lg clearfix divider"></div>
+		{% endif %}
+	{% endfor %}
+	</div>
+	
+	<nav>
+		<ul class="pager">
+			{% if users.has_previous %}
+				<li class="previous"><a href="?{% url_replace request 'page' users.previous_page_number %}"><span aria-hidden="true">&larr;</span> previous</a></li>
+			{% endif %}
+			<span class="current">{{ users_count }} users found. Page {{ users.number }} of {{ users.paginator.num_pages }}.</span>
+			{% if users.has_next %}
+				<li class="next"><a href="?{% url_replace request 'page' users.next_page_number %}">next <span aria-hidden="true">&rarr;</span></a></li>
+			{% endif %}
+		</ul>
+	</nav>
+	
+</div>
+
+{% endblock %}

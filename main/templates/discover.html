@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Discover{% endblock %}
+{% block content %}
+
+<div id="background-image" style="background:url({{ random_movie.backdrop }}) no-repeat center center; background-size: cover; -webkit-background-size: cover;-moz-background-size: cover; -o-background-size: cover;"></div>
+<div id="background-overlay"></div>
+
+<div class="main-content">
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-8">
+			<h1>Discover</h1>
+		</div>
+		<div class="col-md-2">
+			<select class="form-control change-order">
+				<option value="">Order by</option>
+				{% for order in order_options %}
+					{% if order == get_order %}
+					<option value="{{ order }}" selected>{{ order|title }}</option>
+					{% else %}
+					<option value="{{ order }}">{{ order|title }}</option>
+					{% endif %}
+				{% endfor %}
+			</select>
+		</div>
+		<div class="col-md-2">
+			<select class="form-control change-year">
+				<option value="">Year</option>
+				{% if years %}
+				{% for year in years %}
+					{% if year.g == get_year %}
+					<option value="{{ year.g }}" selected>{{ year.g }}</option>
+					{% else %}
+					<option value="{{ year.g }}">{{ year.g }}</option>
+					{% endif %}
+				{% endfor %}
+				{% endif %}
+			</select>
+		</div>
+	</div>
+	{% include 'movies.html' %}
+</div>
+
+</div>
+
+{% endblock %}

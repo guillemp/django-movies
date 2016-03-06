@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Add{% endblock %}
+{% block content %}
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<div class="well">
+				<form action="" method="get" autocomplete="off">
+					<div class="form-group">
+						<label for="query">Add movies</label>
+						<input type="text" class="form-control" name="query" id="query" value="{{ query }}" placeholder="Search for title or TMDb ID" autofocus>
+					</div>
+					<input type="submit" class="btn btn-default" value="Search">
+				</form>
+				
+				{% if movies %}
+				<div>
+					<table class="table">
+					<thead>
+						<tr>
+						<th colspan="5">Movie</th>
+						</tr>
+					</thead>
+					<tbody>
+					{% for movie in movies %}
+						<tr>
+						<td width="100"><img src="https://image.tmdb.org/t/p/w185{{ movie.poster_path }}" width="80"></td>
+						<td>{{ movie.title }}</td>
+						<td><a href="https://www.themoviedb.org/movie/{{ movie.id }}/" target="_blank">{{ movie.id }}</a></td>
+						<td nowrap="nowrap">{{ movie.release_date }}</td>
+						{% if movie.in_database %}
+							<td><a href="/movie/{{ movie.id }}"><span class="glyphicon glyphicon-circle-arrow-right"></span></a></td>
+						{% else %}
+							<td id="add-movie-ajax-{{ movie.id }}"><a href="#" class="add-movie-ajax" data-movie-id="{{ movie.id }}">
+								<span class="glyphicon glyphicon-plus"></span>
+							</a></td>
+						{% endif %}
+						</tr>
+					{% endfor %}
+					</tbody>
+					</table>
+				</div>
+				{% endif %}
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
