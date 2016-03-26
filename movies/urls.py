@@ -1,6 +1,6 @@
 from django.conf.urls import include, url
 from django.contrib import admin
-from django.views.generic.base import TemplateView
+from django.views.generic.base import TemplateView, RedirectView
 from main import views
 from main.views import api, auth, add, ajax
 
@@ -8,11 +8,15 @@ urlpatterns = [
     url(r'^$', views.index_view, name='index_view'),
     
     url(r'^discover$', views.discover_view, name='discover_view'),
+    url(r'^latest$', views.latest_view, name='latest_view'),
     url(r'^users$', views.users_view, name='users_view'),
     url(r'^search$', views.search_view, name='search_view'),
     url(r'^add$', add.movie_add, name='movie_add'),
     url(r'^top$', views.top_view, name='top_view'),
+    
+    # statics
     url(r'^robots\.txt$', TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),
+    url(r'^favicon\.ico$', RedirectView.as_view(url='/static/img/favicon.ico')),
     
     # auth
     url(r'^login$', auth.login_view, name='login_view'),

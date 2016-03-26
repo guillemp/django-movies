@@ -49,6 +49,30 @@ def index_view(request):
         'random_movie': random_movie,
     })
 
+# latest
+def latest_view(request):
+    movies_list = Movie.objects.all().order_by('-created')
+    movies_count = Movie.objects.all().count()
+    
+    paginator = Paginator(movies_list, MOVIES_PER_PAGE)
+    page = request.GET.get('page')
+    try:
+        movies = paginator.page(page)
+    except PageNotAnInteger:
+        movies = paginator.page(1)
+    except EmptyPage:
+        movies = paginator.page(paginator.num_pages)
+    
+    random_movie = None
+    if movies:
+        random_movie = random.choice(movies)
+    
+    return render(request, 'latest.html', {
+        'movies': movies,
+        'count': movies_count,
+        'random_movie': random_movie,
+    })
+
 # search view
 def search_view(request):
     movies_list = []

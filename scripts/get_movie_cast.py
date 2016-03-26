@@ -11,7 +11,7 @@ movies = Movie.objects.all()
 
 for movie in movies:
     if movie.cast.all().count() > 0:
-        print movie.id, "SKIPPED"
+        #print movie.id, "SKIPPED"
         continue
     else:
         print movie.id

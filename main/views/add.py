@@ -57,30 +57,32 @@ def get_tmdb_movie_by_title(query):
 def movie_save(request):
     if request.POST:
         movie_id = request.POST.get('movie_id', None)
-        try:
-            movie = Movie.objects.get(pk=movie_id)
-        except Movie.DoesNotExist:
-            movie = Movie()
-            tmdb_movie = tmdb.Movies(movie_id)
-            response_to_movie(request, movie, tmdb_movie)
-            return HttpResponse("saved")
-        except Exception, e:
-            return HttpResponse(str(e))
+        if movie_id:
+            try:
+                movie = Movie.objects.get(pk=movie_id)
+            except Movie.DoesNotExist:
+                movie = Movie()
+                tmdb_movie = tmdb.Movies(movie_id)
+                response_to_movie(request, movie, tmdb_movie)
+                return HttpResponse("saved")
+            except Exception, e:
+                return HttpResponse(str(e))
     return HttpResponse("error")
 
 @login_required
 def movie_update(request):
     if request.POST:
         movie_id = request.POST.get('movie_id', None)
-        try:
-            tmdb_movie = tmdb.Movies(movie_id)
-            movie = Movie.objects.get(pk=movie_id)
-            response_to_movie(request, movie, tmdb_movie)
-            movie.updated = timezone.now()
-            movie.save()
-            return HttpResponse("updated")
-        except Exception, e:
-            return HttpResponse(str(e))
+        if movie_id:
+            try:
+                tmdb_movie = tmdb.Movies(movie_id)
+                movie = Movie.objects.get(pk=movie_id)
+                response_to_movie(request, movie, tmdb_movie)
+                movie.updated = timezone.now()
+                movie.save()
+                return HttpResponse("updated")
+            except Exception, e:
+                return HttpResponse(str(e))
     return HttpResponse("error")
 
 def response_to_movie(request, movie, tmdb_movie):
@@ -102,7 +104,7 @@ def response_to_movie(request, movie, tmdb_movie):
         movie.user = request.user
         movie.save()
     except Exception, e:
-            print movie.id, movie.title, str(e)
+        print movie.id, movie.title, str(e)
     
     # movie cast add
     for p in credits['cast'] or []:
