@@ -17,7 +17,7 @@
 		</div>
 		
 		<div class="col-md-7">
-			<h1>{{ movie.title }} <small>({{ movie.release_date|date:"Y" }})</small>{% if user.is_authenticated and movie|in_watchlist:user %} <a href="#" class="add-important" data-movie-id="{{ movie.id }}">{% if movie|is_important:user %}<i class="fa fa-star"></i>{% else %}<i class="fa fa-star-o"></i>{% endif %}</a>{% endif %}</h1>
+			<h1>{{ movie.title }} <small>(<a href="/discover?year={{ movie.release_date|date:'Y' }}">{{ movie.release_date|date:"Y" }}</a>)</small>{% if user.is_authenticated and movie|in_watchlist:user %} <a href="#" class="add-important" data-movie-id="{{ movie.id }}">{% if movie|is_important:user %}<i class="fa fa-star"></i>{% else %}<i class="fa fa-star-o"></i>{% endif %}</a>{% endif %}</h1>
 			<h3>{{ movie.tagline }}</h3>
 			<p class="overview">{{ movie.overview }}</p>
 			{% if movie.original_language != 'en' %}
@@ -36,11 +36,13 @@
 				{% else %}
 					{% if movie.imdb_votes > 0 %}
 						<span class="label label-danger">{{ movie.imdb_rating }}</span>
+					{% else %}
+						N/A
 					{% endif %}
 				{% endif %}
 			</p>
 			
-			<p class="overview"><span>Votes:</span> {{ movie.imdb_votes|intcomma }}</p>
+			<p class="overview"><span>Votes:</span> {% if movie.imdb_votes > 0 %}{{ movie.imdb_votes|intcomma }}{% else %}N/A{% endif %}</p>
 			<p class="overview"><span>Runtime:</span> {{ movie.runtime }} min.</p>
 			<p class="overview"><span>IMDb:</span> <a href="http://www.imdb.com/title/{{ movie.imdb_id }}/" target="_blank">{{ movie.imdb_id }} <i class="fa fa-external-link"></i></a></p>
 			<p class="overview"><span>TMDb:</span> <a href="https://www.themoviedb.org/movie/{{ movie.id }}/" target="_blank">{{ movie.id }} <i class="fa fa-external-link"></i></a></p>
@@ -68,7 +70,7 @@
 			<br/>
 			<div class="row">
 				{% for person in cast %}
-				<div class="col-md-2">
+				<div class="col-xs-4 col-md-2">
 					<a href="{{ person.url }}" title="{{ person.name }}" class="person-tooltip"><img src="{{ person.image }}" class="img-responsive"></a>
 				</div>
 				{% endfor %}

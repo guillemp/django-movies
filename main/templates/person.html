@@ -8,8 +8,12 @@
 <div class="main-content">
 
 <div class="container">
-	<h1>{{ person.name }}</h1>
-	{% include 'movies.html' %}
+	<div class="row">
+		<div class="col-md-12">
+			<h1>{{ person.name }} <small>{% if user.is_authenticated %}You've watched {{ percentage }}% ({{ history_count }} of {{ count }}){% endif %}</small></h1>
+			{% include 'movies.html' %}
+		</div>
+	</div>
 </div>
 
 </div>

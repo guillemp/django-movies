@@ -145,10 +145,18 @@ def person_view(request, person_id):
     if movies:
         random_movie = random.choice(movies)
     
+    percentage = 0
+    history_count = 0
+    if request.user.is_authenticated():
+        history_count = request.user.history.filter(movie__cast=person).count()
+        percentage = int(float(history_count)/float(movies_count)*100)
+    
     return render(request, 'person.html', {
         'person': person,
         'movies': movies,
         'count': movies_count,
+        'history_count': history_count,
+        'percentage': percentage,
         'random_movie': random_movie,
     })
 
@@ -179,8 +187,8 @@ def users_view(request):
 
 # top
 def top_view(request):
-    movies_list = Movie.objects.filter(imdb_votes__gt=25000).order_by('-imdb_rating', '-imdb_votes')
-    movies_count = Movie.objects.filter(imdb_votes__gt=25000).count()
+    movies_list = Movie.objects.filter(imdb_votes__gt=250000).order_by('-imdb_rating', '-imdb_votes')
+    movies_count = Movie.objects.filter(imdb_votes__gt=250000).count()
     
     paginator = Paginator(movies_list, MOVIES_PER_PAGE)
     page = request.GET.get('page')

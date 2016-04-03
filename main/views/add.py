@@ -77,8 +77,10 @@ def movie_update(request):
             try:
                 tmdb_movie = tmdb.Movies(movie_id)
                 movie = Movie.objects.get(pk=movie_id)
+                original_user = movie.user
                 response_to_movie(request, movie, tmdb_movie)
                 movie.updated = timezone.now()
+                movie.user = original_user
                 movie.save()
                 return HttpResponse("updated")
             except Exception, e:
