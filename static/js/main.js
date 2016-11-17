@@ -7,7 +7,7 @@ $(function() {
         var content = $(link).html();
         $(link).html('<i class="fa fa-spinner fa-spin"></i>');
         var movie_id = $(this).data('movieId');
-        var url = "/ajax/history_add_remove";
+        var url = "/ajax/history_add_remove/";
         var csrftoken = getCookie('csrftoken');
         var post_data = {
             'movie_id': movie_id,
@@ -39,7 +39,7 @@ $(function() {
         var content = $(link).html();
         $(link).html('<i class="fa fa-spinner fa-spin"></i>');
         var movie_id = $(this).data('movieId');
-        var url = "/ajax/watchlist_add_remove";
+        var url = "/ajax/watchlist_add_remove/";
         var csrftoken = getCookie('csrftoken');
         var post_data = {
             'movie_id': movie_id,
@@ -71,7 +71,7 @@ $(function() {
         var content = $(link).html();
         $(link).html('<i class="fa fa-spinner fa-spin"></i>');
         var movie_id = $(this).data('movieId');
-        var url = "/ajax/blocklist_add_remove";
+        var url = "/ajax/blocklist_add_remove/";
         var csrftoken = getCookie('csrftoken');
         var post_data = {
             'movie_id': movie_id,
@@ -103,7 +103,7 @@ $(function() {
         var movie_id = $(this).data('movieId');
         var container = $('#add-movie-ajax-'+movie_id);
         $(container).html('<i class="fa fa-spinner fa-spin"></i>');
-        var url = "/ajax/movie_save";
+        var url = "/ajax/movie_save/";
         var csrftoken = getCookie('csrftoken');
         var post_data = {
             'movie_id': movie_id,
@@ -124,7 +124,7 @@ $(function() {
         var link = this;
         var movie_id = $(this).data('movieId');
         $(link).html('<i class="fa fa-spinner fa-spin"></i>');
-        var url = "/ajax/movie_update";
+        var url = "/ajax/movie_update/";
         var csrftoken = getCookie('csrftoken');
         var post_data = {
             'movie_id': movie_id,
@@ -149,7 +149,7 @@ $(function() {
         var link = this;
         $(link).html('<i class="fa fa-spinner fa-spin"></i>');
         var movie_id = $(link).data('movieId');
-        var url = "/ajax/watchlist_important";
+        var url = "/ajax/watchlist_important/";
         var csrftoken = getCookie('csrftoken');
         var post_data = {
             'movie_id': movie_id,
@@ -176,7 +176,7 @@ $(function() {
         var query = $(this).val();
         if (query.length >= 2) {
             $('#search-loading').show();
-            var url = "/ajax/autocomplete";
+            var url = "/ajax/autocomplete/";
             var csrftoken = getCookie('csrftoken');
             var post_data = {
                 'query': query,
@@ -207,7 +207,7 @@ $(function() {
     $('.change-order').change(function() {
         var order = $(this).val();
         if (order) {
-            var url = "/discover?order=" + order;
+            var url = "/discover/?order=" + order;
             window.location = url;
         }
     });
@@ -216,7 +216,7 @@ $(function() {
     $('.change-year').change(function() {
         var year = $(this).val();
         if (year) {
-            var url = "/discover?year=" + year;
+            var url = "/discover/?year=" + year;
             window.location = url;
         }
     });

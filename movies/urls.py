@@ -39,9 +39,13 @@ urlpatterns = [
     url(r'^ajax/movie_update/$', add.movie_update, name='movie_update'),
     
     # api
-    url(r'^api/v1/top/$', api.movies_top, name='movies_top'),
-    url(r'^api/v1/movies/(?P<movie_id>[0-9]+)/$', api.movies_detail, name='movies_detail'),
-    url(r'^api/v1/movies/$', api.movies_view, name='movies_view'),
+    url(r'^api/v1/top/$', api.movies_top, name='api_top_movies'),
+    url(r'^api/v1/latest/$', api.latest_view, name='api_latest_movies'),
+    url(r'^api/v1/movies/(?P<movie_id>[0-9]+)/$', api.movies_detail, name='api_movies_detail'),
+    url(r'^api/v1/movies/$', api.movies_view, name='api_movies_view'),
+    url(r'^api/v1/(?P<username>[a-zA-Z0-9_]+)/history/$', api.history_view, name='api_history_view'),
+    url(r'^api/v1/(?P<username>[a-zA-Z0-9_]+)/watchlist/$', api.watchlist_view, name='api_watchlist_view'),
+    url(r'^api/v1/(?P<username>[a-zA-Z0-9_]+)/blocklist/$', api.blocklist_view, name='api_blocklist_view'),
     
     # user
     url(r'^(?P<username>[a-zA-Z0-9_]+)/history/$', views.history_view, name='history_view'),

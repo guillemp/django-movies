@@ -2,7 +2,7 @@ from main.models import Movie
 from bs4 import BeautifulSoup
 import requests
 
-movies = Movie.objects.all()
+movies = Movie.objects.all().order_by('-id')
 total = len(movies)
 
 i = 1

@@ -3,9 +3,9 @@ from main.models import Movie
 import requests
 import json
 
-movies = Movie.objects.all()
-
+movies = Movie.objects.all().order_by('-id')
 total = len(movies)
+
 i = 1
 for movie in movies:
     pos = "%s/%s" % (i, total)
