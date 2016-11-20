@@ -23,7 +23,7 @@
 			<a href="/{{ user.username }}">
 				<img src="{% user_avatar user %}" class="post-avatar pull-left" style="margin-right:10px;" alt="{{ user.username }}">
 			</a>
-			<a href="/{{ user.username }}">{{ user.username }}</a><br/>
+			<a href="/{{ user.username }}/">{{ user.username }}</a><br/>
 		</div>
 		
 		{% if forloop.counter|divisibleby:2 %}

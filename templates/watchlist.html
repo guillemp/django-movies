@@ -10,7 +10,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-9">
-				<h1>{% if user == profile %}My Watchlist{% else %}<a href="/{{ profile.username }}">{{ profile.username }}</a>'s Watchlist{% endif %}</h1>
+				<h1>{% if user == profile %}My Watchlist{% else %}<a href="/{{ profile.username }}/">{{ profile.username }}</a>'s Watchlist{% endif %}</h1>
 		</div>
 		<!--
 		<div class="col-md-3">

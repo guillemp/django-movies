@@ -7,7 +7,7 @@ class Person(models.Model):
     profile_path = models.CharField(max_length=100)
     
     def url(self):
-        return '/person/{}'.format(self.id)
+        return '/person/{}/'.format(self.id)
     
     def image(self):
         if self.profile_path:
@@ -34,7 +34,7 @@ class Movie(models.Model):
     user = models.ForeignKey(User, related_name='added_movies')
     
     def url(self):
-        return '/movie/{}'.format(self.id)
+        return '/movie/{}/'.format(self.id)
     
     def poster(self):
         #https://image.tmdb.org/t/p/w185/c2Ax8Rox5g6CneChwy1gmu4UbSb.jpg
@@ -82,4 +82,3 @@ class Blocklist(models.Model):
     
     class Meta:
         unique_together = (("user", "movie"),)
-    

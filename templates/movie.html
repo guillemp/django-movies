@@ -17,7 +17,7 @@
 		</div>
 		
 		<div class="col-md-7">
-			<h1>{{ movie.title }} <small>(<a href="/discover?year={{ movie.release_date|date:'Y' }}">{{ movie.release_date|date:"Y" }}</a>)</small>{% if user.is_authenticated and movie|in_watchlist:user %} <a href="#" class="add-important" data-movie-id="{{ movie.id }}">{% if movie|is_important:user %}<i class="fa fa-star"></i>{% else %}<i class="fa fa-star-o"></i>{% endif %}</a>{% endif %}</h1>
+			<h1>{{ movie.title }} <small>(<a href="/discover/?year={{ movie.release_date|date:'Y' }}">{{ movie.release_date|date:"Y" }}</a>)</small>{% if user.is_authenticated and movie|in_watchlist:user %} <a href="#" class="add-important" data-movie-id="{{ movie.id }}">{% if movie|is_important:user %}<i class="fa fa-star"></i>{% else %}<i class="fa fa-star-o"></i>{% endif %}</a>{% endif %}</h1>
 			<h3>{{ movie.tagline }}</h3>
 			<p class="overview">{{ movie.overview }}</p>
 			{% if movie.original_language != 'en' %}
@@ -46,7 +46,7 @@
 			<p class="overview"><span>Runtime:</span> {{ movie.runtime }} min.</p>
 			<p class="overview"><span>IMDb:</span> <a href="http://www.imdb.com/title/{{ movie.imdb_id }}/" target="_blank">{{ movie.imdb_id }} <i class="fa fa-external-link"></i></a></p>
 			<p class="overview"><span>TMDb:</span> <a href="https://www.themoviedb.org/movie/{{ movie.id }}/" target="_blank">{{ movie.id }} <i class="fa fa-external-link"></i></a></p>
-			<p class="overview"><span>Added by:</span> <a href="/{{ movie.user.username }}">{{ movie.user.username }}</a></p>
+			<p class="overview"><span>Added by:</span> <a href="/{{ movie.user.username }}/">{{ movie.user.username }}</a></p>
 			
 			</div>
 			<div class="col-md-4">
@@ -89,7 +89,7 @@
 			{% if history_users %}
 				<h4>History users</h4>
 				{% for user in history_users %}
-					<a href="/{{user.user.username}}">{{user.user.username}}</a><br/>
+					<a href="/{{user.user.username}}/">{{user.user.username}}</a><br/>
 				{% endfor %}
 				<br/>&nbsp;
 			{% endif %}
@@ -97,7 +97,7 @@
 			{% if watchlist_users %}
 				<h4>Watchlist users</h4>
 				{% for user in watchlist_users %}
-					<a href="/{{user.user.username}}">{{user.user.username}}</a><br/>
+					<a href="/{{user.user.username}}/">{{user.user.username}}</a><br/>
 				{% endfor %}
 				<br/>&nbsp;
 			{% endif %}
