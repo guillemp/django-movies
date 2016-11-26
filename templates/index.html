@@ -2,15 +2,8 @@
 {% block title %}Home{% endblock %}
 {% block content %}
 
-<div id="background-image" style="background:url({{ random_movie.backdrop }}) no-repeat center center; background-size: cover; -webkit-background-size: cover;-moz-background-size: cover; -o-background-size: cover;"></div>
-<div id="background-overlay"></div>
-
-<div class="main-content">
-
 <div class="container">
-	{% include 'movies.html' %}
-</div>
-
+    {% include 'movies.html' %}
 </div>
 
 {% endblock %}

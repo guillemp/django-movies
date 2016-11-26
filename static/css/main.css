@@ -1,4 +1,4 @@
-body { padding-top: 70px; background-color: rgba(29,29,29,1) }
+body { padding-top: 84px; background-color: #FFF }
 h1,h2 {color:white;margin:0 0 20px 0;padding:0;}
 h3,h4 {color:#bababa;margin:0 0 15px 0;padding:0;}
 a,a:visited {color:#6ac045;}
@@ -7,12 +7,18 @@ a:hover,a:focus {color:#428e21;}
 .footer {
     color:white;
 }
+.navbar {
+    min-height:64px;
+}
 .navbar-inverse {
-    background-color: #1d1d1d;
-    border-color: #2f2f2f;
+    background-color:#333;
+    border:none;
 }
 .navbar-inverse .navbar-brand {
     color: #fff;
+}
+.navbar-inverse .navbar-nav>li>a {
+    color:#f6f6f6;;
 }
 .dropdown-menu {
     background-color: #1d1d1d;
@@ -110,7 +116,7 @@ th {text-align:center}
 a.label {color:white;}
 
 
-.movie-buttons {background:#2f2f2f;color:white;}
+.movie-buttons {background:rgba(3,3,3,.8);}
 .movie-buttons ul {list-style:none;margin:0;padding:0;}
 .movie-buttons ul li {margin:0;padding:0;}
 .movie-buttons li a {float:left;display:block;margin:0;color:white;padding:5px 10px;text-align:center;}
@@ -141,8 +147,18 @@ a.label {color:white;}
 .add-remove-blocklist:hover {background:#1d1d1d;color:#e74c3c}
 .blocklist-active, .blocklist-active:hover {background:#e74c3c !important;color:white !important}
 
-.movie-buttons-year {margin-left:5px;margin-top:5px;}
-.movie-buttons-rating {margin-right:5px;margin-top:4px;}
+.movie-buttons-year {
+    position:absolute;
+    bottom:5px;
+    right:5px;
+    background: rgba(51,51,51,.95);
+    color: #e2e2e2;
+    font-size:11px;
+    border-radius: 2px;
+    padding: 1px 4px;
+    font-weight: 300;
+}
+.movie-buttons-rating {position:absolute;top:5px;right:5px;}
 
 
 .add-important,
@@ -218,4 +234,42 @@ a.label {color:white;}
     -webkit-transform: rotate(359deg);
     transform: rotate(359deg);
   }
+}
+
+/* item styles */
+.item-image {
+  position: relative;
+  width:130px;
+  height:195px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+  margin:0 10px 20px;
+  float:left;
+}
+.item-image img {
+  width:100%;
+  height:100%;
+}
+.item-content {
+  background: #72cffa;
+  margin-bottom:20px;
+}
+.item-text {
+  position: relative;
+  overflow: hidden;
+}
+
+
+.row {
+    margin-right: -10px;
+    margin-left: -10px;
+}
+@media (min-width: 1200px) {
+    .container {
+        width: 1210px;
+    }
+}
+@media (min-width: 992px) {
+    .container {
+        width: 910px;
+    }
 }
