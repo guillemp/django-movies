@@ -42,7 +42,8 @@ class Movie(models.Model):
         return 'https://image.tmdb.org/t/p/w370{}'.format(self.poster_path)
     
     def poster_small(self):
-        return 'https://image.tmdb.org/t/p/w185{}'.format(self.poster_path)
+        #return 'https://image.tmdb.org/t/p/w185{}'.format(self.poster_path)
+        return 'https://image.tmdb.org/t/p/w185_and_h278_bestv2/{}'.format(self.poster_path)
     
     def backdrop(self):
         #https://image.tmdb.org/t/p/w780/c2Ax8Rox5g6CneChwy1gmu4UbSb.jpg
