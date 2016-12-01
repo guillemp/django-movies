@@ -185,10 +185,34 @@ def users_view(request):
         'query': query,
     })
 
-# top
-def top_view(request):
+# top imdb
+def top_imdb_view(request):
     movies_list = Movie.objects.filter(imdb_votes__gt=250000).order_by('-imdb_rating', '-imdb_votes')
     movies_count = Movie.objects.filter(imdb_votes__gt=250000).count()
+    
+    paginator = Paginator(movies_list, MOVIES_PER_PAGE)
+    page = request.GET.get('page')
+    try:
+        movies = paginator.page(page)
+    except PageNotAnInteger:
+        movies = paginator.page(1)
+    except EmptyPage:
+        movies = paginator.page(paginator.num_pages)
+    
+    random_movie = None
+    if movies:
+        random_movie = random.choice(movies)
+    
+    return render(request, 'top.html', {
+        'movies': movies,
+        'count': movies_count,
+        'random_movie': random_movie,
+    })
+
+# top FA
+def top_fa_view(request):
+    movies_list = Movie.objects.exclude(faff_id__exact='').order_by('-faff_rating', '-faff_votes')
+    movies_count = Movie.objects.exclude(faff_id__exact='').count()
     
     paginator = Paginator(movies_list, MOVIES_PER_PAGE)
     page = request.GET.get('page')

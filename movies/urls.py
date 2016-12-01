@@ -12,7 +12,9 @@ urlpatterns = [
     url(r'^users/$', views.users_view, name='users_view'),
     url(r'^search/$', views.search_view, name='search_view'),
     url(r'^add/$', add.movie_add, name='movie_add'),
-    url(r'^top/$', views.top_view, name='top_view'),
+    url(r'^top/imdb/$', views.top_imdb_view, name='top_imdb_view'),
+    url(r'^top/filmaffinity/$', views.top_fa_view, name='top_fa_view'),
+    url(r'^top/$', RedirectView.as_view(pattern_name='top_imdb_view', permanent=False)),
     
     # statics
     url(r'^robots\.txt$', TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),
