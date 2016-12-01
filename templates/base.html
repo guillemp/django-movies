@@ -6,9 +6,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Movies - {% block title %}{% endblock %}</title>
 	<link href="/static/img/favicon.ico" rel="shortcut icon">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 	<link href="/static/css/bootstrap.min.css" rel="stylesheet">
 	<link href="/static/css/font-awesome.min.css" rel="stylesheet">
-	<link href="/static/css/main.css?v=17" rel="stylesheet">
+	<link href="/static/css/main.css?v=22" rel="stylesheet">
 </head>
 <body>
 
@@ -27,15 +28,26 @@
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tops <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="/top/imdb/">Top IMDb</a></li>
+						<li><a href="/top/filmaffinity/">Top FilmAffinity</a></li>
+					</ul>
+				</li>
 				<li><a href="/latest/">Latest</a></li>
-				<li><a href="/top/">Top</a></li>
 				{% if user.is_authenticated %}
 				<li><a href="/discover/">Discover</a></li>
-				<li><a href="/{{ user.username }}/history/">History</a></li>
-				<li><a href="/{{ user.username }}/watchlist/">Watchlist</a></li>
-				<li><a href="/{{ user.username }}/blocklist/">Blocklist</a></li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My lists <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="/{{ user.username }}/history/">History</a></li>
+						<li><a href="/{{ user.username }}/watchlist/">Watchlist</a></li>
+						<li><a href="/{{ user.username }}/blocklist/">Blocklist</a></li>
+					</ul>
+				</li>
 				{% endif %}
-				<li><a href="/users/">Users</a></li>
+				<!--<li><a href="/users/">Users</a></li>-->
 			</ul>
 			
 			<form action="/search/" method="get" autocomplete="off" class="navbar-form navbar-left" role="search">
@@ -69,9 +81,15 @@
 
 {% block content %}{% endblock %}
 
+<div class="footer">
+	<div class="container">
+		<p>&copy; pop&amp;ceba</p>
+	</div>
+</div>
+
 <script src="/static/js/jquery-1.12.1.min.js"></script>
 <script src="/static/js/bootstrap.min.js"></script>
-<script src="/static/js/main.js?v=17"></script>
+<script src="/static/js/main.js?v=21"></script>
 {% block javascript %}{% endblock %}
 
 </body>

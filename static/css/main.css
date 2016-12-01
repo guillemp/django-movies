@@ -1,18 +1,42 @@
-body { padding-top: 70px; background-color: rgba(29,29,29,1) }
+body {
+    font-family: 'Open Sans', sans-serif;
+    padding-top: 50px;
+    background-color: rgba(29,29,29,1);
+}
 h1,h2 {color:white;margin:0 0 20px 0;padding:0;}
 h3,h4 {color:#bababa;margin:0 0 15px 0;padding:0;}
-a,a:visited {color:#6ac045;}
-a:hover,a:focus {color:#428e21;}
+a,a:visited {color:#2ecc71;}
+a:hover,a:focus {color:#27ae60;}
 
-.footer {
-    color:white;
+.label-success {background-color:#2ecc71;}
+.label-warning {background-color:#f1c40f;}
+.label-danger {background-color: #e74c3c;}
+
+.movie-title {font-size:32px;}
+.movie-tagline {font-size:16px;text-transform:uppercase;}
+
+.top {
+    padding-top:20px;
 }
+.footer {
+    color:#9d9d9d;
+    background-color: #1d1d1d;
+    border-top:1px solid #2f2f2f;
+    margin-top:40px;
+    text-align:center;
+    padding:15px 0;
+}
+.footer p {margin:0;padding:0;}
 .navbar-inverse {
     background-color: #1d1d1d;
     border-color: #2f2f2f;
 }
+.container>.navbar-header {
+}
 .navbar-inverse .navbar-brand {
     color: #fff;
+}
+.navbar-inverse .navbar-brand:hover {
 }
 .dropdown-menu {
     background-color: #1d1d1d;
@@ -29,9 +53,12 @@ a:hover,a:focus {color:#428e21;}
     background-color: #2f2f2f;
 }
 
+.thumbnail {
+    padding:3px;
+}
 .thumbnail, .img-thumbnail {
     border:none;
-    border-radius:3px;
+    border-radius:0;
     position:relative;
 }
 
@@ -64,7 +91,7 @@ th {text-align:center}
     color:white;
 }
 .form-control:focus {
-    border-color:#6ac045;
+    border-color:#2ecc71;
     -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(106,192,69,.6);
     box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(106,192,69,.6);
 }
@@ -73,11 +100,11 @@ th {text-align:center}
 }
 .btn-default {
     color:white;
-    background:#6ac045;
+    background:#2ecc71;
     border:none;
 }
 .btn-default:hover {
-    background:#428e21;
+    background:#27ae60;
     color:white;
     border:none;
 }
@@ -110,14 +137,20 @@ th {text-align:center}
 a.label {color:white;}
 
 
-.movie-buttons {background:#2f2f2f;color:white;}
+.movie-buttons {
+    background:rgba(47,47,47,.7);
+    background: linear-gradient(to bottom,rgba(47,47,47,0.4) 0,rgba(47,47,47,.8) 100%);
+    color:white;position:absolute;bottom:3px;left:3px;right:3px;}
 .movie-buttons ul {list-style:none;margin:0;padding:0;}
 .movie-buttons ul li {margin:0;padding:0;}
 .movie-buttons li a {float:left;display:block;margin:0;color:white;padding:5px 10px;text-align:center;}
 .movie-buttons li a:hover {text-decoration:none;}
 
-.big-buttons {background:none}
-.big-buttons li a {float:none;padding:10px 0;margin-bottom:10px;border-radius:3px}
+.big-buttons {background:none;}
+.big-buttons ul {list-style:none;margin:0;padding:0;}
+.big-buttons ul li {margin:0;padding:0;}
+.big-buttons li a {float:none;display:block;padding:10px 0;color:white;margin-bottom:10px;border-radius:3px;text-align:center;}
+.big-buttons li a:hover {text-decoration:none;}
 .big-buttons .add-remove-history {border:1px solid #16a085;background:rgba(29,29,29,.6)}
 .big-buttons .add-remove-history:hover {background:#16a085;color:white}
 .big-buttons .add-remove-watchlist {border:1px solid #8e44ad;background:rgba(29,29,29,.6)}
@@ -142,7 +175,7 @@ a.label {color:white;}
 .blocklist-active, .blocklist-active:hover {background:#e74c3c !important;color:white !important}
 
 .movie-buttons-year {margin-left:5px;margin-top:5px;}
-.movie-buttons-rating {margin-right:5px;margin-top:4px;}
+.movie-buttons-rating {position:absolute;top:5px;right:8px;}
 
 
 .add-important,
@@ -156,43 +189,41 @@ a.label {color:white;}
     background:#f1c40f;
 }
 
+#movie-poster {
+    margin-top:-200px;
+    box-shadow: 0 0 20px 0px #666666;
+}
+.movie-poster {
+    position:relative;
+}
+.poster-thumnail {
+    box-shadow: 0 0 15px 0px #666666;
+    position:relative;
+    transition: background-color 0.5s ease;
+}.poster-thumnail:hover {
+    background: #2ecc71
+}
 
 #background-image {
-    position: absolute;
-    left: 0;
-    right: 0;
-    z-index: 1;
-    display: block;
-    width: 100%;
-    top: 50px;
-    height: 580px;
+    height:400px;
+    margin-bottom:20px;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    border-bottom:1px solid #2f2f2f;
+    position:relative;
 }
 
 #background-overlay {
-    top: 50px;
-    height: 580px;
-    position: absolute;
-    left: 0;
-    right: 0;
-    z-index: 6;
-    width: 100%;
-    background: -moz-linear-gradient(top,rgba(29,29,29,0.65) 0,rgba(29,29,29,1) 100%);
-    background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,rgba(29,29,29,0.5)),color-stop(100%,rgba(29,29,29,1)));
-    background: -webkit-linear-gradient(top,rgba(29,29,29,0.65) 0,rgba(29,29,29,1) 100%);
-    background: -o-linear-gradient(top,rgba(29,29,29,0.65) 0,rgba(29,29,29,1) 100%);
-    background: -ms-linear-gradient(top,rgba(29,29,29,0.65) 0,rgba(29,29,29,1) 100%);
-    background: linear-gradient(to bottom,rgba(29,29,29,0.65) 0,rgba(29,29,29,1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#801d1d1d',endColorstr='#1d1d1d',GradientType=0);
+    width:100%;
+    position:absolute;
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 100%);
+    height:120px;
+    bottom:0;
 }
 
-.main-content {
-    top: 80px;
-    position: absolute;
-    left: 0;
-    right: 0;
-    z-index: 7;
-    margin: 0 auto;
-}
+.main-content {}
 
 /* Animation */
 .spinner {

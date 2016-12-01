@@ -2,20 +2,13 @@
 {% block title %}{{ person.name }}{% endblock %}
 {% block content %}
 
-<div id="background-image" style="background:url({{ random_movie.backdrop }}) no-repeat center center; background-size: cover; -webkit-background-size: cover;-moz-background-size: cover; -o-background-size: cover;"></div>
-<div id="background-overlay"></div>
-
-<div class="main-content">
-
-<div class="container">
+<div class="container top">
 	<div class="row">
 		<div class="col-md-12">
 			<h1>{{ person.name }} <small>{% if user.is_authenticated %}You've watched {{ percentage }}% ({{ history_count }} of {{ count }}){% endif %}</small></h1>
 			{% include 'movies.html' %}
 		</div>
 	</div>
-</div>
-
 </div>
 
 {% endblock %}

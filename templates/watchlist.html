@@ -2,12 +2,7 @@
 {% block title %}{{ profile.username }}'s Watchlist{% endblock %}
 {% block content %}
 
-<div id="background-image" style="background:url({{ random_movie.backdrop }}) no-repeat center center; background-size: cover; -webkit-background-size: cover;-moz-background-size: cover; -o-background-size: cover;"></div>
-<div id="background-overlay"></div>
-
-<div class="main-content">
-
-<div class="container">
+<div class="container top">
 	<div class="row">
 		<div class="col-md-9">
 				<h1>{% if user == profile %}My Watchlist{% else %}<a href="/{{ profile.username }}/">{{ profile.username }}</a>'s Watchlist{% endif %}</h1>
@@ -25,8 +20,6 @@
 		-->
 	</div>
 	{% include 'movies.html' %}
-</div>
-
 </div>
 
 {% endblock %}
