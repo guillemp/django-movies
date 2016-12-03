@@ -19,6 +19,7 @@
 				
 				<div class="movie-buttons-rating">
 					{% if movie.imdb_rating %}
+						<div class="imdb-rating">
 						{% if movie.imdb_rating > 6.9 %}
 							<span class="label label-success">{{ movie.imdb_rating }}</span>
 						{% elif movie.imdb_rating > 4.9 %}
@@ -28,11 +29,11 @@
 								<span class="label label-danger">{{ movie.imdb_rating }}</span>
 							{% endif %}
 						{% endif %}
+						</div>
 					{% endif %}
 					
-					{% comment %}
 					{% if movie.faff_rating %}
-						<img src="/static/img/fa.png" width="16" height="16" alt="FA" />
+						<div class="faff-rating" style="display: none">
 						{% if movie.faff_rating > 6.9 %}
 							<span class="label label-success">{{ movie.faff_rating }}</span>
 						{% elif movie.faff_rating > 4.9 %}
@@ -42,8 +43,8 @@
 								<span class="label label-danger">{{ movie.faff_rating }}</span>
 							{% endif %}
 						{% endif %}
+						</div>
 					{% endif %}
-					{% endcomment %}
 				</div>
 			</div>
 		</div>

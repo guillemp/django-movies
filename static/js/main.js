@@ -1,5 +1,5 @@
+
 $(function() {
-    
     // ADD/REMOVE HISTORY
     $('.add-remove-history').click(function(e) {
         e.preventDefault();
@@ -260,4 +260,21 @@ function getCookie(name) {
         }
     }
     return cookieValue;
+}
+
+var rating_toggle_on = false;
+function rating_toggle() {
+    if (rating_toggle_on) {
+        $('.fa-toggle-off').addClass('fa-toggle-on');
+        $('.fa-toggle-off').removeClass('fa-toggle-off');
+        $('.faff-rating').show();
+        $('.imdb-rating').hide();
+        rating_toggle_on = true;
+    } else {
+        $('.fa-toggle-on').addClass('fa-toggle-off');
+        $('.fa-toggle-on').removeClass('fa-toggle-on');
+        $('.faff-rating').hide();
+        $('.imdb-rating').show();
+        rating_toggle_on = false;
+    }
 }

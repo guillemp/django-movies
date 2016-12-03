@@ -3,8 +3,21 @@
 {% block content %}
 
 <div class="container top">
-    <!--<h1>New movies</h1>-->
+    <button class="btn btn-default rating-toggler pull-right">IMDb &nbsp;<i class="fa fa-toggle-off" aria-hidden="true"></i>&nbsp; FilmAffinity</button>
+    <h1>New movies</h1>
     {% include 'movies.html' %}
 </div>
 
+{% endblock %}
+
+{% block javascript %}
+<script>
+$(function() {
+    rating_toggle();
+    $('.rating-toggler').click(function() {
+        rating_toggle_on = !rating_toggle_on;
+        rating_toggle();
+    });
+});
+</script>
 {% endblock %}
