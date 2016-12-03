@@ -227,7 +227,7 @@ def top_fa_view(request):
     if movies:
         random_movie = random.choice(movies)
     
-    return render(request, 'top.html', {
+    return render(request, 'top_faff.html', {
         'movies': movies,
         'count': movies_count,
         'random_movie': random_movie,

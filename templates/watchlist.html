@@ -3,23 +3,9 @@
 {% block content %}
 
 <div class="container top">
-	<div class="row">
-		<div class="col-md-9">
-				<h1>{% if user == profile %}My Watchlist{% else %}<a href="/{{ profile.username }}/">{{ profile.username }}</a>'s Watchlist{% endif %}</h1>
-		</div>
-		<!--
-		<div class="col-md-3">
-			<select class="form-control">
-				<option>Release Date</option>
-				<option>Added Date</option>
-				<option>Title</option>
-				<option>IMDB Rating</option>
-				<option>IMDB Votes</option>
-			</select>
-		</div>
-		-->
-	</div>
-	{% include 'movies.html' %}
+    <div class="rating-mode pull-right">Rating mode: <a href="#" class="rating-toggler">IMDb</a></div>
+    <h1>{% if user == profile %}My Watchlist{% else %}<a href="/{{ profile.username }}/">{{ profile.username }}</a>'s Watchlist{% endif %}</h1>
+    {% include 'movies.html' %}
 </div>
 
 {% endblock %}

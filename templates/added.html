@@ -3,8 +3,9 @@
 {% block content %}
 
 <div class="container top">
+    <div class="rating-mode pull-right">Rating mode: <a href="#" class="rating-toggler">IMDb</a></div>
     <h1>Movies added by <strong>{{ profile.username }}</strong></h1>
-	{% include 'movies.html' %}
+    {% include 'movies.html' %}
 </div>
 
 {% endblock %}

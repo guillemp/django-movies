@@ -56,8 +56,8 @@ class Movie(models.Model):
         #https://image.tmdb.org/t/p/w780/c2Ax8Rox5g6CneChwy1gmu4UbSb.jpg
         #https://image.tmdb.org/t/p/original/c2Ax8Rox5g6CneChwy1gmu4UbSb.jpg
         #return 'https://image.tmdb.org/t/p/w780{}'.format(self.backdrop_path)
-        #return 'https://image.tmdb.org/t/p/w1066_and_h600_bestv2/{}'.format(self.backdrop_path)
-        return 'https://image.tmdb.org/t/p/w1300_and_h730_bestv2/{}'.format(self.backdrop_path)
+        return 'https://image.tmdb.org/t/p/w1066_and_h600_bestv2/{}'.format(self.backdrop_path)
+        #return 'https://image.tmdb.org/t/p/w1300_and_h730_bestv2/{}'.format(self.backdrop_path)
 
 class MovieCast(models.Model):
     person = models.ForeignKey(Person)

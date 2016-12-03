@@ -1,5 +1,41 @@
 
 $(function() {
+    if (RATING_MODE == RATING_MODE_IMDB) {
+        $('.rating-toggler').html('IMDb');
+        $('.imdb-rating').show();
+        $('.faff-rating').hide();
+    } else if (RATING_MODE == RATING_MODE_FAFF) {
+        $('.rating-toggler').html('FilmAffinity');
+        $('.imdb-rating').hide();
+        $('.faff-rating').show();
+    }
+    
+    // Change rating mode
+    $('.rating-toggler').click(function() {
+        if (RATING_MODE == RATING_MODE_IMDB) {
+            $(this).html('FilmAffinity');
+            $('.imdb-rating').hide();
+            $('.faff-rating').show();
+            RATING_MODE = RATING_MODE_FAFF;
+        } else if (RATING_MODE == RATING_MODE_FAFF) {
+            $(this).html('IMDb');
+            $('.imdb-rating').show();
+            $('.faff-rating').hide();
+            RATING_MODE = RATING_MODE_IMDB;
+        }
+        var endpoint = "/ajax/rating_mode/";
+        var csrftoken = getCookie('csrftoken');
+        var post_data = {
+            'rating_mode': RATING_MODE,
+            'csrfmiddlewaretoken': csrftoken,
+        };
+        $.post(endpoint, post_data, function(data) {
+            // RATING_MODE
+            console.log(data);
+        })
+        return false;
+    });
+    
     // ADD/REMOVE HISTORY
     $('.add-remove-history').click(function(e) {
         e.preventDefault();
@@ -260,21 +296,4 @@ function getCookie(name) {
         }
     }
     return cookieValue;
-}
-
-var rating_toggle_on = false;
-function rating_toggle() {
-    if (rating_toggle_on) {
-        $('.fa-toggle-off').addClass('fa-toggle-on');
-        $('.fa-toggle-off').removeClass('fa-toggle-off');
-        $('.faff-rating').show();
-        $('.imdb-rating').hide();
-        rating_toggle_on = true;
-    } else {
-        $('.fa-toggle-on').addClass('fa-toggle-off');
-        $('.fa-toggle-on').removeClass('fa-toggle-on');
-        $('.faff-rating').hide();
-        $('.imdb-rating').show();
-        rating_toggle_on = false;
-    }
 }

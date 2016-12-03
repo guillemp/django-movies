@@ -24,6 +24,13 @@ USERS_PER_PAGE = 30
 # ajax
 #
 @login_required
+def rating_mode(request):
+    rating_mode = request.POST.get('rating_mode', None)
+    if rating_mode:
+        request.session['rating_mode'] = rating_mode
+        return HttpResponse(rating_mode)
+
+@login_required
 def history_add_remove(request):
     #time.sleep(1)
     movie_id = request.POST.get('movie_id', None)

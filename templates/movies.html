@@ -1,79 +1,79 @@
 {% load extras %}
 <div class="row">
-	{% for movie in movies %}
-		<div class="col-xs-6 col-sm-3 col-md-2 col-lg-2" >
-			<div class="thumbnail{% if user.is_authenticated and movie|is_important:user %} important{% endif %} poster-thumnail" id="movie-{{ movie.id }}">
-				<a href="{{ movie.url }}" title="{{ movie.title }}" class="movie-poster">
-					<img class="poster" src="{{ movie.poster_small }}" alt="{{ movie.title }}">
-				</a>
-				
-				{% if user.is_authenticated %}
-				<div class="movie-buttons">
-					<ul>
-						<li><a href="#" class="add-remove-history{% if movie|in_history:user %} history-active{% endif %}" data-movie-id="{{ movie.id }}" title="Add to History">H</a></li>
-						<li><a href="#" class="add-remove-watchlist{% if movie|in_watchlist:user %} watchlist-active{% endif %}" data-movie-id="{{ movie.id }}" title="Add to Watchlist">W</a></li>
-					</ul>
-					<div class="clearfix"></div>
-				</div>
-				{% endif %}
-				
-				<div class="movie-buttons-rating">
-					{% if movie.imdb_rating %}
-						<div class="imdb-rating">
-						{% if movie.imdb_rating > 6.9 %}
-							<span class="label label-success">{{ movie.imdb_rating }}</span>
-						{% elif movie.imdb_rating > 4.9 %}
-							<span class="label label-warning">{{ movie.imdb_rating }}</span>
-						{% else %}
-							{% if movie.imdb_votes > 0 %}
-								<span class="label label-danger">{{ movie.imdb_rating }}</span>
-							{% endif %}
-						{% endif %}
-						</div>
-					{% endif %}
-					
-					{% if movie.faff_rating %}
-						<div class="faff-rating" style="display: none">
-						{% if movie.faff_rating > 6.9 %}
-							<span class="label label-success">{{ movie.faff_rating }}</span>
-						{% elif movie.faff_rating > 4.9 %}
-							<span class="label label-warning">{{ movie.faff_rating }}</span>
-						{% else %}
-							{% if movie.faff_rating > 0 %}
-								<span class="label label-danger">{{ movie.faff_rating }}</span>
-							{% endif %}
-						{% endif %}
-						</div>
-					{% endif %}
-				</div>
-			</div>
-		</div>
-		
-		{% if forloop.counter|divisibleby:2 %}
-		<!-- every 2nd col -->
-		<div class="visible-xs clearfix divider"></div>
-		{% endif %}
-		
-		{% if forloop.counter|divisibleby:4 %}
-		<!-- every 3rd col -->
-		<div class="visible-sm clearfix divider"></div>
-		{% endif %}
-		
-		{% if forloop.counter|divisibleby:6 %}
-		<!-- and every 4th col -->
-		<div class="visible-xs visible-md visible-lg clearfix divider"></div>
-		{% endif %}
-	{% endfor %}
+    {% for movie in movies %}
+        <div class="col-xs-6 col-sm-3 col-md-2 col-lg-2" >
+            <div class="thumbnail{% if user.is_authenticated and movie|is_important:user %} important{% endif %} poster-thumnail" id="movie-{{ movie.id }}">
+                <a href="{{ movie.url }}" title="{{ movie.title }}" class="movie-poster">
+                    <img class="poster" src="{{ movie.poster_small }}" alt="{{ movie.title }}">
+                </a>
+                
+                {% if user.is_authenticated %}
+                <div class="movie-buttons">
+                    <ul>
+                        <li><a href="#" class="add-remove-history{% if movie|in_history:user %} history-active{% endif %}" data-movie-id="{{ movie.id }}" title="Add to History">H</a></li>
+                        <li><a href="#" class="add-remove-watchlist{% if movie|in_watchlist:user %} watchlist-active{% endif %}" data-movie-id="{{ movie.id }}" title="Add to Watchlist">W</a></li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                {% endif %}
+                
+                <div class="movie-buttons-rating">
+                    {% if movie.imdb_rating %}
+                        <div class="imdb-rating">
+                        {% if movie.imdb_rating > 6.9 %}
+                            <span class="label label-success">{{ movie.imdb_rating }}</span>
+                        {% elif movie.imdb_rating > 4.9 %}
+                            <span class="label label-warning">{{ movie.imdb_rating }}</span>
+                        {% else %}
+                            {% if movie.imdb_votes > 0 %}
+                                <span class="label label-danger">{{ movie.imdb_rating }}</span>
+                            {% endif %}
+                        {% endif %}
+                        </div>
+                    {% endif %}
+                    
+                    {% if movie.faff_rating %}
+                        <div class="faff-rating" style="display: none">
+                        {% if movie.faff_rating > 6.9 %}
+                            <span class="label label-success">{{ movie.faff_rating }}</span>
+                        {% elif movie.faff_rating > 4.9 %}
+                            <span class="label label-warning">{{ movie.faff_rating }}</span>
+                        {% else %}
+                            {% if movie.faff_rating > 0 %}
+                                <span class="label label-danger">{{ movie.faff_rating }}</span>
+                            {% endif %}
+                        {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        {% if forloop.counter|divisibleby:2 %}
+        <!-- every 2nd col -->
+        <div class="visible-xs clearfix divider"></div>
+        {% endif %}
+        
+        {% if forloop.counter|divisibleby:4 %}
+        <!-- every 3rd col -->
+        <div class="visible-sm clearfix divider"></div>
+        {% endif %}
+        
+        {% if forloop.counter|divisibleby:6 %}
+        <!-- and every 4th col -->
+        <div class="visible-xs visible-md visible-lg clearfix divider"></div>
+        {% endif %}
+    {% endfor %}
 </div>
 
 <nav>
-	<ul class="pager">
-		{% if movies.has_previous %}
-			<li class="previous"><a href="?{% url_replace request 'page' movies.previous_page_number %}"><span aria-hidden="true">&larr;</span> previous</a></li>
-		{% endif %}
-		<span class="current">{{ count }} movies found. Page {{ movies.number }} of {{ movies.paginator.num_pages }}.</span>
-		{% if movies.has_next %}
-			<li class="next"><a href="?{% url_replace request 'page' movies.next_page_number %}">next <span aria-hidden="true">&rarr;</span></a></li>
-		{% endif %}
-	</ul>
+    <ul class="pager">
+        {% if movies.has_previous %}
+            <li class="previous"><a href="?{% url_replace request 'page' movies.previous_page_number %}"><span aria-hidden="true">&larr;</span> previous</a></li>
+        {% endif %}
+        <span class="current">{{ count }} movies found. Page {{ movies.number }} of {{ movies.paginator.num_pages }}.</span>
+        {% if movies.has_next %}
+            <li class="next"><a href="?{% url_replace request 'page' movies.next_page_number %}">next <span aria-hidden="true">&rarr;</span></a></li>
+        {% endif %}
+    </ul>
 </nav>

@@ -2,18 +2,12 @@
 {% block title %}Search{% endblock %}
 {% block content %}
 
-<div id="background-image" style="background:url({{ random_movie.backdrop }}) no-repeat center center; background-size: cover; -webkit-background-size: cover;-moz-background-size: cover; -o-background-size: cover;"></div>
-<div id="background-overlay"></div>
-
-<div class="main-content">
-
-<div class="container">
-	{% if search_query %}
-		<h1>{{ count }} results for "<i>{{ search_query }}</i>"</h1>
-	{% endif %}
-	{% include 'movies.html' %}
-</div>
-
+<div class="container top">
+    {% if search_query %}
+        <div class="rating-mode pull-right">Rating mode: <a href="#" class="rating-toggler">IMDb</a></div>
+        <h1>{{ count }} results for "<i>{{ search_query }}</i>"</h1>
+    {% endif %}
+    {% include 'movies.html' %}
 </div>
 
 {% endblock %}

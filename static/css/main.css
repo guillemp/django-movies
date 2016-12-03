@@ -189,6 +189,11 @@ a.label {color:white;}
     background:#f1c40f;
 }
 
+.rating-mode {
+    color:white;
+    line-height: 2.4;
+}
+
 #movie-poster {
     margin-top:-200px;
     box-shadow: 0 0 20px 0px #666666;

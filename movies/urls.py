@@ -37,6 +37,7 @@ urlpatterns = [
     url(r'^ajax/blocklist_add_remove/$', ajax.blocklist_add_remove, name='blocklist_add_remove'),
     url(r'^ajax/watchlist_important/$', ajax.watchlist_important, name='watchlist_important'),
     url(r'^ajax/autocomplete/$', ajax.autocomplete_view, name='autocomplete_view'),
+    url(r'^ajax/rating_mode/$', ajax.rating_mode, name='rating_mode'),
     url(r'^ajax/movie_save/$', add.movie_save, name='movie_save'),
     url(r'^ajax/movie_update/$', add.movie_update, name='movie_update'),
     

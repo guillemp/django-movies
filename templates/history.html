@@ -3,8 +3,9 @@
 {% block content %}
 
 <div class="container top">
-	<h1>{% if user == profile %}My History{% else %}<a href="/{{ profile.username }}">{{ profile.username }}</a>'s History{% endif %} <small>{{ total_runtime }} hours</small></h1>
-	{% include 'movies.html' %}
+    <div class="rating-mode pull-right">Rating mode: <a href="#" class="rating-toggler">IMDb</a></div>
+    <h1>{% if user == profile %}My History{% else %}<a href="/{{ profile.username }}">{{ profile.username }}</a>'s History{% endif %} <small>{{ total_runtime }} hours</small></h1>
+    {% include 'movies.html' %}
 </div>
 
 {% endblock %}

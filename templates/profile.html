@@ -5,24 +5,24 @@
 {% block content %}
 
 <div class="container top">
-	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
-			<div class="well">
-				<div class="row">
-					<div class="col-md-2">
-						<p><img src="{% user_avatar profile %}" alt="{{ profile.username }}"><p>
-					</div>
-					<div class="col-md-10">
-						<h2>{{ profile.username }}</h2>
-						<h3><a href="/{{ profile.username }}/history/">History ({{ history_count|intcomma }})</h3>
-						<h3><a href="/{{ profile.username }}/watchlist/">Watchlist ({{ watchlist_count|intcomma }})</a></h3>
-						<h3><a href="/{{ profile.username }}/blocklist/">Blocklist ({{ blocklist_count|intcomma }})</a></h3>
-						<h3><a href="/{{ profile.username }}/added/">Movies added ({{ added_count|intcomma }})</a></h3>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="well">
+                <div class="row">
+                    <div class="col-md-2">
+                        <p><img src="{% user_avatar profile %}" alt="{{ profile.username }}"><p>
+                    </div>
+                    <div class="col-md-10">
+                        <h2>{{ profile.username }}</h2>
+                        <h3><a href="/{{ profile.username }}/history/">History ({{ history_count|intcomma }})</h3>
+                        <h3><a href="/{{ profile.username }}/watchlist/">Watchlist ({{ watchlist_count|intcomma }})</a></h3>
+                        <h3><a href="/{{ profile.username }}/blocklist/">Blocklist ({{ blocklist_count|intcomma }})</a></h3>
+                        <h3><a href="/{{ profile.username }}/added/">Movies added ({{ added_count|intcomma }})</a></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock %}
