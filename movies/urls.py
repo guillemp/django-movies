@@ -6,6 +6,7 @@ from main.views import api, auth, add, ajax
 
 urlpatterns = [
     url(r'^$', views.index_view, name='index_view'),
+    url(r'^admin/', include(admin.site.urls)),
     
     url(r'^discover/$', views.discover_view, name='discover_view'),
     url(r'^latest/$', views.latest_view, name='latest_view'),

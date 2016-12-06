@@ -43,6 +43,9 @@ class Movie(models.Model):
     updated = models.DateTimeField(null=True, blank=True)
     user = models.ForeignKey(User, related_name='added_movies')
     
+    def __unicode__(self):
+        return self.title
+    
     def url(self):
         return '/movie/{}/'.format(self.id)
     
