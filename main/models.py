@@ -15,6 +15,11 @@ class Person(models.Model):
             #return 'https://image.tmdb.org/t/p/w132_and_h132_bestv2/{}'.format(self.profile_path)
             return 'https://image.tmdb.org/t/p/w264_and_h264_bestv2/{}'.format(self.profile_path)
         return '/static/img/person.png'
+    
+    def portrait(self):
+        if self.profile_path:
+            return 'https://image.tmdb.org/t/p/w300_and_h450_bestv2/{}'.format(self.profile_path)
+        return '/static/img/person.png'
 
 class Movie(models.Model):
     title = models.CharField(max_length=255)
@@ -42,20 +47,15 @@ class Movie(models.Model):
         return '/movie/{}/'.format(self.id)
     
     def poster(self):
-        #https://image.tmdb.org/t/p/w185/c2Ax8Rox5g6CneChwy1gmu4UbSb.jpg
-        #https://image.tmdb.org/t/p/w370/c2Ax8Rox5g6CneChwy1gmu4UbSb.jpg
         #return 'https://image.tmdb.org/t/p/w370{}'.format(self.poster_path)
         return 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/{}'.format(self.poster_path)
     
     def poster_small(self):
-        #return 'https://image.tmdb.org/t/p/w185{}'.format(self.poster_path)
         #return 'https://image.tmdb.org/t/p/w185_and_h278_bestv2/{}'.format(self.poster_path)
         return 'https://image.tmdb.org/t/p/w370_and_h556_bestv2/{}'.format(self.poster_path)
     
     def backdrop(self):
-        #https://image.tmdb.org/t/p/w780/c2Ax8Rox5g6CneChwy1gmu4UbSb.jpg
-        #https://image.tmdb.org/t/p/original/c2Ax8Rox5g6CneChwy1gmu4UbSb.jpg
-        #return 'https://image.tmdb.org/t/p/w780{}'.format(self.backdrop_path)
+        #return 'https://image.tmdb.org/t/p/w533_and_h300_bestv2/{}'.format(self.backdrop_path)
         return 'https://image.tmdb.org/t/p/w1066_and_h600_bestv2/{}'.format(self.backdrop_path)
         #return 'https://image.tmdb.org/t/p/w1300_and_h730_bestv2/{}'.format(self.backdrop_path)
 

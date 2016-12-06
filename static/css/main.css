@@ -208,6 +208,10 @@ a.label {color:white;}
 }.poster-thumnail:hover {
     background: #2ecc71
 }
+.portrait-image {
+    box-shadow: 0 0 20px 0px #666666;
+}
+.person-details {margin-top:15px;color:white;text-align:center;}
 
 #background-image {
     height:400px;

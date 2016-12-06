@@ -4,8 +4,16 @@
 
 <div class="container top">
     <div class="rating-mode pull-right">Rating mode: <a href="#" class="rating-toggler">IMDb</a></div>
-    <h1>{{ person.name }} <small>{% if user.is_authenticated %}You've watched {{ percentage }}% ({{ history_count }} of {{ count }}){% endif %}</small></h1>
-    {% include 'movies.html' %}
+    <h1>{{ person.name }}</h1>
+    <div class="row">
+        <div class="col-xs-12 col-sm-3 col-md-3">
+            <img src="{{ person.portrait }}" class="img-responsive img-thumbnail portrait-image" alt="{{ person.name }}"/>
+            <p class="person-details">{% if user.is_authenticated %}You've watched {{ percentage }}% ({{ history_count }} of {{ count }}){% endif %}</p>
+        </div>
+        <div class="col-xs-12 col-sm-9 col-md-9">
+            {% include 'movies.html' %}
+        </div>
+    </div>
 </div>
 
 {% endblock %}
