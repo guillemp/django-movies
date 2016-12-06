@@ -24,7 +24,7 @@
                 <br/>
                 
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-sm-8 col-md-8">
                         {% if movie.original_language != 'en' %}
                             <p class="overview"><span>Original title:</span> {{ movie.original_title }}</p>
                         {% endif %}
@@ -72,8 +72,9 @@
                         {% if movie.faff_id %}
                             <p class="overview"><span>FA:</span> <a href="http://www.filmaffinity.com/es/{{ movie.faff_id }}.html" target="_blank">{{ movie.faff_id }} <i class="fa fa-external-link"></i></a></p>
                         {% endif %}
+                        <br/>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-sm-4 col-md-4">
                         {% if user.is_authenticated %}
                             <div class="big-buttons">
                                 <ul>

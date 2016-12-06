@@ -143,7 +143,7 @@ a.label {color:white;}
     color:white;position:absolute;bottom:3px;left:3px;right:3px;}
 .movie-buttons ul {list-style:none;margin:0;padding:0;}
 .movie-buttons ul li {margin:0;padding:0;}
-.movie-buttons li a {float:left;display:block;margin:0;color:white;padding:5px 10px;text-align:center;}
+.movie-buttons li a {float:left;display:block;margin:0;color:white;padding:2px 8px;text-align:center;font-weight:300}
 .movie-buttons li a:hover {text-decoration:none;}
 
 .big-buttons {background:none;}
@@ -195,7 +195,7 @@ a.label {color:white;}
 }
 
 #movie-poster {
-    margin-top:-200px;
+    margin-top:-150px;
     box-shadow: 0 0 20px 0px #666666;
 }
 .movie-poster {
@@ -214,7 +214,7 @@ a.label {color:white;}
 .person-details {margin-top:15px;color:white;text-align:center;}
 
 #background-image {
-    height:400px;
+    height:200px;
     margin-bottom:20px;
     background-size: cover;
     -webkit-background-size: cover;
@@ -235,6 +235,7 @@ a.label {color:white;}
 .main-content {}
 
 /* Animation */
+
 .spinner {
   -webkit-animation: spin 1300ms infinite linear;
   animation: spin 1300ms infinite linear;
@@ -258,4 +259,20 @@ a.label {color:white;}
     -webkit-transform: rotate(359deg);
     transform: rotate(359deg);
   }
+}
+
+/* Media queries */
+
+@media (min-width: 768px) {
+    #mq {color:#e74c3c;}
+    #background-image {height:250px}
+    #movie-poster {margin-top:-200px;}
+}
+@media (min-width: 992px) {
+    #mq {color:#8e44ad;}
+    #background-image {height:300px}
+}
+@media (min-width: 1200px) {
+    #mq {color:#16a085;}
+    #background-image {height:400px}
 }
