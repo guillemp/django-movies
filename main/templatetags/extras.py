@@ -41,3 +41,9 @@ def user_avatar(user):
     gravatar_url = "http://www.gravatar.com/avatar/" + hashlib.md5(user.email.lower()).hexdigest() + "?"
     gravatar_url += urllib.urlencode({'d':'retro', 's':str(100)}) # identicon
     return gravatar_url
+
+@register.filter('startswith')
+def startswith(text, starts):
+    if isinstance(text, basestring):
+        return text.startswith(starts)
+    return False

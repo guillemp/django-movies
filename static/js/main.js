@@ -1,10 +1,12 @@
+var RATING_MODE_IMDB = 0;
+var RATING_MODE_FAFF = 1;
 
 $(function() {
-    if (RATING_MODE == RATING_MODE_IMDB) {
+    if (rating_mode == RATING_MODE_IMDB) {
         $('.rating-toggler').html('IMDb');
         $('.imdb-rating').show();
         $('.faff-rating').hide();
-    } else if (RATING_MODE == RATING_MODE_FAFF) {
+    } else if (rating_mode == RATING_MODE_FAFF) {
         $('.rating-toggler').html('FilmAffinity');
         $('.imdb-rating').hide();
         $('.faff-rating').show();
@@ -12,27 +14,28 @@ $(function() {
     
     // Change rating mode
     $('.rating-toggler').click(function() {
-        if (RATING_MODE == RATING_MODE_IMDB) {
+        if (rating_mode == RATING_MODE_IMDB) {
             $(this).html('FilmAffinity');
             $('.imdb-rating').hide();
             $('.faff-rating').show();
-            RATING_MODE = RATING_MODE_FAFF;
-        } else if (RATING_MODE == RATING_MODE_FAFF) {
+            rating_mode = RATING_MODE_FAFF;
+        } else if (rating_mode == RATING_MODE_FAFF) {
             $(this).html('IMDb');
             $('.imdb-rating').show();
             $('.faff-rating').hide();
-            RATING_MODE = RATING_MODE_IMDB;
+            rating_mode = RATING_MODE_IMDB;
         }
-        var endpoint = "/ajax/rating_mode/";
-        var csrftoken = getCookie('csrftoken');
-        var post_data = {
-            'rating_mode': RATING_MODE,
-            'csrfmiddlewaretoken': csrftoken,
-        };
-        $.post(endpoint, post_data, function(data) {
-            // RATING_MODE
-            console.log(data);
-        })
+        if (user_id) {
+            var endpoint = "/ajax/rating_mode/";
+            var csrftoken = getCookie('csrftoken');
+            var post_data = {
+                'rating_mode': rating_mode,
+                'csrfmiddlewaretoken': csrftoken,
+            };
+            $.post(endpoint, post_data, function(data) {
+                console.log(data); // RATING_MODE
+            });
+        }
         return false;
     });
     

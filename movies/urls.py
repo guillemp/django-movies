@@ -19,7 +19,7 @@ urlpatterns = [
     
     # statics
     url(r'^robots\.txt$', TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),
-    url(r'^favicon\.ico$', RedirectView.as_view(url='/static/img/favicon.ico')),
+    url(r'^favicon\.ico$', RedirectView.as_view(url='/static/img/favicon.ico', permanent=True)),
     
     # auth
     url(r'^login/$', auth.login_view, name='login_view'),

@@ -25,10 +25,8 @@ def index_view(request):
         # exclude blocklist movies
         blocklist_ids = Blocklist.objects.filter(user=request.user).values_list('movie', flat=True)
         movies_list = Movie.objects.exclude(id__in=blocklist_ids).order_by('-release_date')
-        movies_count = Movie.objects.exclude(id__in=blocklist_ids).count()
     else:
         movies_list = Movie.objects.all().order_by('-release_date')
-        movies_count = Movie.objects.all().count()
     
     paginator = Paginator(movies_list, MOVIES_PER_PAGE)
     page = request.GET.get('page')
@@ -39,20 +37,14 @@ def index_view(request):
     except EmptyPage:
         movies = paginator.page(paginator.num_pages)
     
-    random_movie = None
-    if movies:
-        random_movie = random.choice(movies)
-    
     return render(request, 'index.html', {
         'movies': movies,
-        'count': movies_count,
-        'random_movie': random_movie,
+        'count': movies_list.count(),
     })
 
 # latest
 def latest_view(request):
     movies_list = Movie.objects.all().order_by('-created')
-    movies_count = Movie.objects.all().count()
     
     paginator = Paginator(movies_list, MOVIES_PER_PAGE)
     page = request.GET.get('page')
@@ -63,14 +55,9 @@ def latest_view(request):
     except EmptyPage:
         movies = paginator.page(paginator.num_pages)
     
-    random_movie = None
-    if movies:
-        random_movie = random.choice(movies)
-    
     return render(request, 'latest.html', {
         'movies': movies,
-        'count': movies_count,
-        'random_movie': random_movie,
+        'count': movies_list.count(),
     })
 
 # search view
@@ -88,7 +75,6 @@ def search_view(request):
                 pass
             
         movies_list = Movie.objects.filter(title__icontains=query).order_by('-release_date') | Movie.objects.filter(original_title__icontains=query).order_by('-release_date')
-        movies_count = Movie.objects.filter(title__icontains=query).count() | Movie.objects.filter(original_title__icontains=query).count()
     
     paginator = Paginator(movies_list, MOVIES_PER_PAGE)
     page = request.GET.get('page')
@@ -99,14 +85,9 @@ def search_view(request):
     except EmptyPage:
         movies = paginator.page(paginator.num_pages)
     
-    random_movie = None
-    if movies:
-        random_movie = random.choice(movies)
-    
     return render(request, 'search.html', {
         'movies': movies,
-        'count': movies_count,
-        'random_movie': random_movie,
+        'count': movies_list.count(),
         'search_query': query,
     })
 
@@ -130,7 +111,7 @@ def movie_view(request, movie_id):
 def person_view(request, person_id):
     person = get_object_or_404(Person, pk=person_id)
     movies_list = person.movies.all().order_by('-release_date')
-    movies_count = person.movies.all().count()
+    movies_count = movies_list.count()
     
     paginator = Paginator(movies_list, MOVIES_PER_PAGE)
     page = request.GET.get('page')
@@ -140,10 +121,6 @@ def person_view(request, person_id):
         movies = paginator.page(1)
     except EmptyPage:
         movies = paginator.page(paginator.num_pages)
-    
-    random_movie = None
-    if movies:
-        random_movie = random.choice(movies)
     
     percentage = 0
     history_count = 0
@@ -157,7 +134,6 @@ def person_view(request, person_id):
         'count': movies_count,
         'history_count': history_count,
         'percentage': percentage,
-        'random_movie': random_movie,
     })
 
 #users
@@ -165,10 +141,8 @@ def users_view(request):
     query = request.GET.get('query', '')
     if query:
         users_list = User.objects.filter(username__icontains=query).order_by('username')
-        users_count = User.objects.filter(username__icontains=query).count()
     else:
         users_list = User.objects.all().order_by('username')
-        users_count = User.objects.all().count()
 
     paginator = Paginator(users_list, USERS_PER_PAGE)
     page = request.GET.get('page')
@@ -181,14 +155,13 @@ def users_view(request):
 
     return render(request, 'users.html', {
         'users': users,
-        'users_count': users_count,
+        'users_count': users_list.count(),
         'query': query,
     })
 
 # top imdb
 def top_imdb_view(request):
     movies_list = Movie.objects.filter(imdb_votes__gt=250000).order_by('-imdb_rating', '-imdb_votes')
-    movies_count = Movie.objects.filter(imdb_votes__gt=250000).count()
     
     paginator = Paginator(movies_list, MOVIES_PER_PAGE)
     page = request.GET.get('page')
@@ -199,20 +172,14 @@ def top_imdb_view(request):
     except EmptyPage:
         movies = paginator.page(paginator.num_pages)
     
-    random_movie = None
-    if movies:
-        random_movie = random.choice(movies)
-    
     return render(request, 'top.html', {
         'movies': movies,
-        'count': movies_count,
-        'random_movie': random_movie,
+        'count': movies_list.count(),
     })
 
 # top FA
 def top_fa_view(request):
     movies_list = Movie.objects.exclude(faff_id__exact='').order_by('-faff_rating', '-faff_votes')
-    movies_count = Movie.objects.exclude(faff_id__exact='').count()
     
     paginator = Paginator(movies_list, MOVIES_PER_PAGE)
     page = request.GET.get('page')
@@ -223,14 +190,9 @@ def top_fa_view(request):
     except EmptyPage:
         movies = paginator.page(paginator.num_pages)
     
-    random_movie = None
-    if movies:
-        random_movie = random.choice(movies)
-    
     return render(request, 'top_faff.html', {
         'movies': movies,
-        'count': movies_count,
-        'random_movie': random_movie,
+        'count': movies_list.count(),
     })
 
 # profile
@@ -255,7 +217,6 @@ def history_view(request, username):
     
     history_ids = History.objects.filter(user=profile).values_list('movie', flat=True)
     movies_list = Movie.objects.filter(id__in=history_ids).order_by('-release_date')
-    movies_count = Movie.objects.filter(id__in=history_ids).count()
     
     paginator = Paginator(movies_list, MOVIES_PER_PAGE)
     page = request.GET.get('page')
@@ -266,10 +227,6 @@ def history_view(request, username):
     except EmptyPage:
         movies = paginator.page(paginator.num_pages)
     
-    random_movie = None
-    if movies:
-        random_movie = random.choice(movies)
-    
     total_runtime = 0
     if history_ids:
         sum_runtime = Movie.objects.filter(id__in=history_ids).aggregate(Sum('runtime'))
@@ -278,8 +235,7 @@ def history_view(request, username):
     return render(request, 'history.html', {
         'profile': profile,
         'movies': movies,
-        'count': movies_count,
-        'random_movie': random_movie,
+        'count': movies_list.count(),
         'total_runtime': total_runtime,
     })
 
@@ -292,7 +248,6 @@ def watchlist_view(request, username):
     #movies_count = Movie.objects.filter(id__in=watchlist_ids).count()
     
     watchlist = profile.watchlist.all().order_by('-important', '-movie__release_date')
-    watchlist_count = profile.watchlist.all().count()
     movies_list = []
     for obj in watchlist:
         #obj.movie['important'] = obj.important
@@ -307,15 +262,10 @@ def watchlist_view(request, username):
     except EmptyPage:
         movies = paginator.page(paginator.num_pages)
     
-    random_movie = None
-    if movies:
-        random_movie = random.choice(movies)
-    
     return render(request, 'watchlist.html', {
         'profile': profile,
         'movies': movies,
-        'count': watchlist_count,
-        'random_movie': random_movie,
+        'count': watchlist.count(),
     })
 
 # blocklist
@@ -324,7 +274,6 @@ def blocklist_view(request, username):
     
     blocklist = profile.blocklist.all().order_by('-movie__release_date')
     movies_list = [b.movie for b in blocklist]
-    movies_count = profile.blocklist.all().count()
         
     paginator = Paginator(movies_list, MOVIES_PER_PAGE)
     page = request.GET.get('page')
@@ -335,15 +284,10 @@ def blocklist_view(request, username):
     except EmptyPage:
         movies = paginator.page(paginator.num_pages)
     
-    random_movie = None
-    if movies:
-        random_movie = random.choice(movies)
-    
     return render(request, 'blocklist.html', {
         'profile': profile,
         'movies': movies,
-        'count': movies_count,
-        'random_movie': random_movie,
+        'count': blocklist.count(),
     })
 
 # added
@@ -351,7 +295,6 @@ def added_view(request, username):
     profile = get_object_or_404(User, username=username)
     
     movies_list = profile.added_movies.all().order_by('-release_date')
-    movies_count = profile.added_movies.all().count()
         
     paginator = Paginator(movies_list, MOVIES_PER_PAGE)
     page = request.GET.get('page')
@@ -362,15 +305,10 @@ def added_view(request, username):
     except EmptyPage:
         movies = paginator.page(paginator.num_pages)
     
-    random_movie = None
-    if movies:
-        random_movie = random.choice(movies)
-    
     return render(request, 'added.html', {
         'profile': profile,
         'movies': movies,
-        'count': movies_count,
-        'random_movie': random_movie,
+        'count': movies_list.count(),
     })
 
 # discover
@@ -398,8 +336,7 @@ def discover_view(request):
     order = order_options[get_order]
     
     movies_list = Movie.objects.exclude(id__in=history_ids).exclude(id__in=watchlist_ids).exclude(id__in=blocklist_ids).filter(**kwargs).order_by(order)
-    movies_list_count = Movie.objects.exclude(id__in=history_ids).exclude(id__in=watchlist_ids).exclude(id__in=blocklist_ids).filter(**kwargs).count()
-        
+            
     paginator = Paginator(movies_list, MOVIES_PER_PAGE)
     page = request.GET.get('page')
     try:
@@ -408,10 +345,6 @@ def discover_view(request):
         movies = paginator.page(1)
     except EmptyPage:
         movies = paginator.page(paginator.num_pages)
-    
-    random_movie = None
-    if movies:
-        random_movie = random.choice(movies)
     
     history_commas = ",".join(str(x) for x in history_ids)
     watchlist_commas = ",".join(str(x) for x in watchlist_ids)
@@ -425,8 +358,7 @@ def discover_view(request):
     
     return render(request, 'discover.html', {
         'movies': movies,
-        'count': movies_list_count,
-        'random_movie': random_movie,
+        'count': movies_list.count(),
         'get_order': get_order,
         'order_options': order_options.keys(),
         'years': years,

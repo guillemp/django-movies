@@ -89,16 +89,13 @@
 </div>
 
 <script>
-var RATING_MODE_IMDB = 1;
-var RATING_MODE_FAFF = 2;
-var RATING_MODE = RATING_MODE_IMDB;
-{%if request.session.rating_mode %}
-    RATING_MODE = parseInt("{{ request.session.rating_mode }}");
-{% endif %}
+var user_id = {{ user.id|default_if_none:0 }};
+var username = "{{ user.username }}";
+var rating_mode = {{ request.session.rating_mode|default:0 }};
 </script>
 <script src="/static/js/jquery-1.12.1.min.js"></script>
 <script src="/static/js/bootstrap.min.js"></script>
-<script src="/static/js/main.js?v=28"></script>
+<script src="/static/js/main.js?v=29"></script>
 {% block javascript %}{% endblock %}
 
 </body>
