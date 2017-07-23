@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load extras %}
+{% block title %}Activity{% endblock %}
+{% block content %}
+
+<div class="container top">
+    <h1>Activity</h1>
+    
+    {% for a in activity %}
+        {{ a.user.username }} has {{ a.action }} on {{ a.movie.title }}<br/>
+    {% endfor %}
+    
+    <nav>
+        <ul class="pager">
+            {% if activity.has_previous %}
+                <li class="previous"><a href="?{% url_replace request 'page' activity.previous_page_number %}"><span aria-hidden="true">&larr;</span> previous</a></li>
+            {% endif %}
+            <span class="current">{{ count }} movies found. Page {{ activity.number }} of {{ activity.paginator.num_pages }}.</span>
+            {% if activity.has_next %}
+                <li class="next"><a href="?{% url_replace request 'page' activity.next_page_number %}">next <span aria-hidden="true">&rarr;</span></a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
+{% endblock %}

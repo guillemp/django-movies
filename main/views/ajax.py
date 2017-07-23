@@ -7,7 +7,7 @@ from django.http import HttpResponse, Http404
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Sum, Count
-from main.models import Movie, History, Watchlist, Blocklist, Person
+from main.models import Movie, History, Watchlist, Blocklist, Person, Activity
 from django.utils import timezone
 from movies import config
 import tmdbsimple as tmdb
@@ -38,6 +38,7 @@ def history_add_remove(request):
     exists = request.user.history.filter(movie=movie)
     if exists:
         exists.delete()
+        Activity.add(request.user, movie, 'history_remove')
         return HttpResponse("removed")
     else:
         history = History()
@@ -50,6 +51,7 @@ def history_add_remove(request):
         # delete from blocklist
         blocklist = request.user.blocklist.filter(movie=movie)
         blocklist.delete()
+        Activity.add(request.user, movie, 'history_add')
         return HttpResponse("added")
 
 @login_required
@@ -60,6 +62,7 @@ def watchlist_add_remove(request):
     exists = request.user.watchlist.filter(movie=movie)
     if exists:
         exists.delete()
+        Activity.add(request.user, movie, 'watchlist_remove')
         return HttpResponse("removed")
     else:
         watchlist = Watchlist()
@@ -72,6 +75,7 @@ def watchlist_add_remove(request):
         # delete from blocklist
         blocklist = request.user.blocklist.filter(movie=movie)
         blocklist.delete()
+        Activity.add(request.user, movie, 'watchlist_add')
         return HttpResponse("added")
 
 @login_required
@@ -81,6 +85,7 @@ def blocklist_add_remove(request):
     exists = request.user.blocklist.filter(movie=movie)
     if exists:
         exists.delete()
+        Activity.add(request.user, movie, 'blocklist_remove')
         return HttpResponse("removed")
     else:
         blocklist = Blocklist()
@@ -93,6 +98,7 @@ def blocklist_add_remove(request):
         # delete from watchlist
         watchlist = request.user.watchlist.filter(movie=movie)
         watchlist.delete()
+        Activity.add(request.user, movie, 'blocklist_add')
         return HttpResponse("added")
 
 @login_required

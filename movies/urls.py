@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^$', views.index_view, name='index_view'),
     url(r'^admin/', include(admin.site.urls)),
     
+    url(r'^activity/$', views.activity_view, name='activity_view'),
     url(r'^discover/$', views.discover_view, name='discover_view'),
     url(r'^latest/$', views.latest_view, name='latest_view'),
     url(r'^users/$', views.users_view, name='users_view'),

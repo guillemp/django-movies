@@ -7,7 +7,7 @@ from django.http import HttpResponse, Http404
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Sum, Count
-from main.models import Movie, History, Watchlist, Blocklist, Person, MovieCast
+from main.models import Movie, History, Watchlist, Blocklist, Person, MovieCast, Activity
 from django.utils import timezone
 from movies import config
 import tmdbsimple as tmdb
@@ -64,6 +64,7 @@ def movie_save(request):
                 movie = Movie()
                 tmdb_movie = tmdb.Movies(movie_id)
                 response_to_movie(request, movie, tmdb_movie)
+                Activity.add(request.user, movie, 'movie_add')
                 return HttpResponse("saved")
             except Exception, e:
                 return HttpResponse(str(e))

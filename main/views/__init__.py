@@ -7,7 +7,7 @@ from django.http import HttpResponse, Http404
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Sum, Count
-from main.models import Movie, History, Watchlist, Blocklist, Person
+from main.models import Movie, History, Watchlist, Blocklist, Person, Activity
 from django.utils import timezone
 from movies import config
 import tmdbsimple as tmdb
@@ -363,4 +363,20 @@ def discover_view(request):
         'order_options': order_options.keys(),
         'years': years,
         'get_year': int(get_year),
+    })
+
+def activity_view(request):
+    activity_list = Activity.objects.all().order_by('-created')
+    
+    paginator = Paginator(activity_list, MOVIES_PER_PAGE)
+    page = request.GET.get('page')
+    try:
+        activity = paginator.page(page)
+    except PageNotAnInteger:
+        activity = paginator.page(1)
+    except EmptyPage:
+        activity = paginator.page(paginator.num_pages)
+    
+    return render(request, 'activity.html', {
+        "activity": activity
     })

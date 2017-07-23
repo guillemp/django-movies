@@ -95,3 +95,22 @@ class Blocklist(models.Model):
     
     class Meta:
         unique_together = (("user", "movie"),)
+
+class Activity(models.Model):
+    user = models.ForeignKey(User)
+    movie = models.ForeignKey(Movie)
+    action = models.CharField(max_length=128)
+    created = models.DateTimeField()
+    
+    @classmethod
+    def add(cls, user, movie, action, created=None):
+        a = timezone.now()
+        if created:
+            a = created
+        
+        Activity(
+            user = user,
+            movie = movie,
+            action = action,
+            created = a,
+        ).save()
