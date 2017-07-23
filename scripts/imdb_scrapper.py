@@ -42,3 +42,4 @@ for movie in movies:
         print pos, movie.imdb_id, rating_out, votes_out
     except Exception, e:
         print movie.imdb_id, str(e)
+
