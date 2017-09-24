@@ -179,7 +179,11 @@ def top_imdb_view(request):
 
 # top FA
 def top_fa_view(request):
-    movies_list = Movie.objects.exclude(faff_id__exact='').order_by('-faff_rating', '-faff_votes')
+    if request.GET.get('mode', '') == 'discover':
+        seen_movies = History.objects.filter(user=request.user).values_list('movie', flat=True)
+        movies_list = Movie.objects.exclude(faff_id__exact='').exclude(pk__in=seen_movies).order_by('-faff_rating', '-faff_votes')
+    else:
+        movies_list = Movie.objects.exclude(faff_id__exact='').order_by('-faff_rating', '-faff_votes')
     
     paginator = Paginator(movies_list, MOVIES_PER_PAGE)
     page = request.GET.get('page')

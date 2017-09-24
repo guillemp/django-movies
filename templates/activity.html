@@ -7,7 +7,27 @@
     <h1>Activity</h1>
     
     {% for a in activity %}
-        {{ a.user.username }} has {{ a.action }} on {{ a.movie.title }}<br/>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="thumbnail{% if user.is_authenticated and movie|is_important:user %} important{% endif %} poster-thumnail" id="movie-{{ movie.id }}">
+                <a href="{{ a.movie.url }}" title="{{ a.movie.title }}" class="movie-poster">
+                    <img class="poster" src="{{ a.movie.poster_small }}" alt="{{ a.movie.title }}">
+                </a>
+                {% if user.is_authenticated %}
+                <div class="movie-buttons">
+                    <ul>
+                        <li><a href="#" class="add-remove-history{% if movie|in_history:user %} history-active{% endif %}" data-movie-id="{{ movie.id }}" title="Add to History">H</a></li>
+                        <li><a href="#" class="add-remove-watchlist{% if movie|in_watchlist:user %} watchlist-active{% endif %}" data-movie-id="{{ movie.id }}" title="Add to Watchlist">W</a></li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+    
+        <a href="/{{ a.user.username }}">{{ a.user.username }}</a> has {{ a.action }} on {{ a.movie.title }}<br/>
+    </div>
     {% endfor %}
     
     <nav>

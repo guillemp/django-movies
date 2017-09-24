@@ -1,0 +1,76 @@
+{% load extras %}
+{% load humanize %}
+{% for movie in movies %}
+    <div class="row" style="border-bottom:1px solid #2f2f2f;padding:15px 0;">
+        <div class="col-xs-3 col-sm-2 col-md-2">
+            <div class="thumbnail{% if user.is_authenticated and movie|is_important:user %} important{% endif %} poster-thumnail" id="movie-{{ movie.id }}">
+                <a href="{{ movie.url }}" title="{{ movie.title }}" class="movie-poster">
+                    <img class="poster" src="{{ movie.poster_small }}" alt="{{ movie.title }}">
+                </a>
+                {% if user.is_authenticated %}
+                <div class="movie-buttons">
+                    <ul>
+                        <li><a href="#" class="add-remove-history{% if movie|in_history:user %} history-active{% endif %}" data-movie-id="{{ movie.id }}" title="Add to History">H</a></li>
+                        <li><a href="#" class="add-remove-watchlist{% if movie|in_watchlist:user %} watchlist-active{% endif %}" data-movie-id="{{ movie.id }}" title="Add to Watchlist">W</a></li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-xs-9 col-sm-10 col-md-10">
+            <div>
+                <h2>{{ movie.title }}</h2>
+                
+                <h3 class="movie-tagline">{{ movie.tagline }}</h3>
+                <p class="overview" style="font-size:14px">{{ movie.overview }}</p>
+                
+                <p class="overview">
+                <img src="/static/img/imdb.png" width="16" height="16" alt="IMDb" />&nbsp;
+                <span>Rating:</span>
+                {% if movie.imdb_rating > 6.9 %}
+                    <span class="label label-success">{{ movie.imdb_rating }}</span>
+                {% elif movie.imdb_rating > 4.9 %}
+                    <span class="label label-warning">{{ movie.imdb_rating }}</span>
+                {% else %}
+                    {% if movie.imdb_votes > 0 %}
+                        <span class="label label-danger">{{ movie.imdb_rating }}</span>
+                    {% else %}
+                        N/A
+                    {% endif %}
+                {% endif %}
+                &nbsp; <span>Votes:</span> {% if movie.imdb_votes > 0 %}{{ movie.imdb_votes|intcomma }}{% else %}N/A{% endif %}</p>
+                
+                {% if movie.faff_id %}
+                    <p class="overview">
+                    <img src="/static/img/fa.png" width="16" height="16" alt="FA" />&nbsp;
+                    <span>Rating:</span> 
+                    {% if movie.faff_rating > 6.9 %}
+                        <span class="label label-success">{{ movie.faff_rating }}</span>
+                    {% elif movie.faff_rating > 4.9 %}
+                        <span class="label label-warning">{{ movie.faff_rating }}</span>
+                    {% else %}
+                        {% if movie.faff_rating > 0 %}
+                            <span class="label label-danger">{{ movie.faff_rating }}</span>
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    {% endif %}
+                    &nbsp; <span>Votes:</span> {% if movie.faff_votes > 0 %}{{ movie.faff_votes|intcomma }}{% else %}N/A{% endif %}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+<nav>
+    <ul class="pager">
+        {% if movies.has_previous %}
+            <li class="previous"><a href="?{% url_replace request 'page' movies.previous_page_number %}"><span aria-hidden="true">&larr;</span> previous</a></li>
+        {% endif %}
+        <span class="current">{{ count }} movies found. Page {{ movies.number }} of {{ movies.paginator.num_pages }}.</span>
+        {% if movies.has_next %}
+            <li class="next"><a href="?{% url_replace request 'page' movies.next_page_number %}">next <span aria-hidden="true">&rarr;</span></a></li>
+        {% endif %}
+    </ul>
+</nav>
