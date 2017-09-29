@@ -17,7 +17,7 @@
             </div>
             
             <div class="col-xs-12 col-sm-12 col-md-7">
-                <h1 class="movie-title">{{ movie.title }} <small><a href="/discover/?year={{ movie.release_date|date:'Y' }}">{{ movie.release_date|date:"Y" }}</a></small>{% if user.is_authenticated and movie|in_watchlist:user %} <a href="#" class="add-important" data-movie-id="{{ movie.id }}">{% if movie|is_important:user %}<i class="fa fa-star"></i>{% else %}<i class="fa fa-star-o"></i>{% endif %}</a>{% endif %}</h1>
+                <h1 class="movie-title">{{ movie.title }} <small><a href="/search/?year_from={{ movie.release_date|date:'Y' }}&amp;year_to={{ movie.release_date|date:'Y' }}">{{ movie.release_date|date:"Y" }}</a></small>{% if user.is_authenticated and movie|in_watchlist:user %} <a href="#" class="add-important" data-movie-id="{{ movie.id }}">{% if movie|is_important:user %}<i class="fa fa-star"></i>{% else %}<i class="fa fa-star-o"></i>{% endif %}</a>{% endif %}</h1>
                 <h3 class="movie-tagline">{{ movie.tagline }}</h3>
                 <p class="overview">{{ movie.overview }}</p>
                 
@@ -93,8 +93,8 @@
                 <br/>
                 <div class="row">
                     {% for person in cast %}
-                    <div class="col-xs-4 col-md-2">
-                        <a href="{{ person.url }}" title="{{ person.name }}" class="person-tooltip"><img src="{{ person.image }}" class="img-responsive" style="border-radius:50%;border:2px solid #FFF;margin-bottom:20px;"></a>
+                    <div class="col">
+                        <a href="{{ person.url }}" title="{{ person.name }}" class="person-tooltip"><img src="{{ person.image }}" class="img-fluid" style="border-radius:50%;border:2px solid #FFF;margin-bottom:20px;"></a>
                     </div>
                     {% endfor %}
                 </div>

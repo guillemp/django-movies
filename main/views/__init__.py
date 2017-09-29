@@ -9,6 +9,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Sum, Count
 from main.models import Movie, History, Watchlist, Blocklist, Person, Activity
 from django.utils import timezone
+from datetime import datetime
 from movies import config
 import tmdbsimple as tmdb
 import requests
@@ -62,19 +63,76 @@ def latest_view(request):
 
 # search view
 def search_view(request):
+    kwargs = {}
     movies_list = []
     movies_count = 0
     
-    query = request.GET.get('query', '')
-    if query:
-        if query.startswith('tt'):
-            try:
-                movie = Movie.objects.get(imdb_id=query)
-                return redirect(movie.url())
-            except:
-                pass
-            
-        movies_list = Movie.objects.filter(title__icontains=query).order_by('-release_date') | Movie.objects.filter(original_title__icontains=query).order_by('-release_date')
+    title = request.GET.get('title', '')
+    year_from = request.GET.get('year_from', 0)
+    year_to = request.GET.get('year_to', 0)
+    imdb_rating_from = request.GET.get('imdb_rating_from', 0)
+    imdb_rating_to = request.GET.get('imdb_rating_to', 0)
+    faff_rating_from = request.GET.get('faff_rating_from', 0)
+    faff_rating_to = request.GET.get('faff_rating_to', 0)
+    show_watchlist = request.GET.get('watchlist', False)
+    show_history = request.GET.get('history', False)
+    show_blocklist = request.GET.get('blocklist', False)
+    get_order = request.GET.get('order', '')
+    get_asc_desc = request.GET.get('asc_desc', '')
+    
+    if title:
+        kwargs['title__icontains'] = title
+    if year_from:
+        year_from = int(year_from)
+        kwargs['release_date__gte'] = datetime(year_from, 1, 1)
+    if year_to:
+        year_to = int(year_to)
+        kwargs['release_date__lte'] = datetime(year_to, 12, 31)
+    if imdb_rating_from:
+        imdb_rating_from = int(imdb_rating_from)
+        kwargs['imdb_rating__gte'] = imdb_rating_from
+    if imdb_rating_to:
+        imdb_rating_to = int(imdb_rating_to)
+        kwargs['imdb_rating__lte'] = imdb_rating_to
+    if faff_rating_from:
+        faff_rating_from = int(faff_rating_from)
+        kwargs['faff_rating__gte'] = faff_rating_from
+    if faff_rating_to:
+        faff_rating_to = int(faff_rating_to)
+        kwargs['faff_rating__lte'] = faff_rating_to
+    
+    
+    order_options = {
+        "date": "release_date",
+        "imdb_rating": "imdb_rating",
+        "faff_rating": "faff_rating"
+    }
+    order_by = 'date'
+    if get_order:
+        order_by = get_order
+    
+    asc_desc_options = {
+        "asc": "",
+        "desc": "-"
+    }
+    asc_desc = "desc"
+    if get_asc_desc:
+        asc_desc = get_asc_desc
+    
+    query_order = '{}{}'.format(asc_desc_options[asc_desc], order_options[order_by])
+    
+    movies_list = Movie.objects.filter(**kwargs).order_by(query_order)
+    
+    if request.user.is_authenticated():
+        if not show_watchlist:
+            watchlist = Watchlist.objects.filter(user=request.user).values_list('movie', flat=True)
+            movies_list = movies_list.exclude(pk__in=watchlist)
+        if not show_history:
+            history = History.objects.filter(user=request.user).values_list('movie', flat=True)
+            movies_list = movies_list.exclude(pk__in=history)
+        if not show_blocklist:
+            blocklist = Blocklist.objects.filter(user=request.user).values_list('movie', flat=True)
+            movies_list = movies_list.exclude(pk__in=blocklist)
     
     paginator = Paginator(movies_list, MOVIES_PER_PAGE)
     page = request.GET.get('page')
@@ -87,8 +145,22 @@ def search_view(request):
     
     return render(request, 'search.html', {
         'movies': movies,
-        'count': movies_list.count(),
-        'search_query': query,
+        'title': title,
+        'year_from': year_from,
+        'year_to': year_to,
+        'imdb_rating_from': imdb_rating_from,
+        'imdb_rating_to': imdb_rating_to,
+        'faff_rating_from': faff_rating_from,
+        'faff_rating_to': faff_rating_to,
+        'show_watchlist': show_watchlist,
+        'show_history': show_history,
+        'show_blocklist': show_blocklist,
+        'rating_range': range(5,10),
+        'year_range': reversed(range(1970, 2019)),
+        'order_options': order_options,
+        'asc_desc_options': asc_desc_options,
+        'order_by': order_by,
+        'asc_desc': asc_desc,
     })
 
 # movie detail
@@ -161,7 +233,11 @@ def users_view(request):
 
 # top imdb
 def top_imdb_view(request):
-    movies_list = Movie.objects.filter(imdb_votes__gt=250000).order_by('-imdb_rating', '-imdb_votes')
+    if request.GET.get('mode', '') == 'discover':
+        seen_movies = History.objects.filter(user=request.user).values_list('movie', flat=True)
+        movies_list = Movie.objects.filter(imdb_votes__gt=250000).exclude(pk__in=seen_movies).order_by('-imdb_rating', '-imdb_votes')
+    else:
+        movies_list = Movie.objects.filter(imdb_votes__gt=250000).order_by('-imdb_rating', '-imdb_votes')
     
     paginator = Paginator(movies_list, MOVIES_PER_PAGE)
     page = request.GET.get('page')
@@ -318,6 +394,7 @@ def added_view(request, username):
 # discover
 @login_required
 def discover_view(request):
+    return redirect('/search/')
     
     history_ids = History.objects.filter(user=request.user).values_list('movie', flat=True)
     watchlist_ids = Watchlist.objects.filter(user=request.user).values_list('movie', flat=True)

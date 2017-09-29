@@ -2,11 +2,144 @@
 {% block title %}Search{% endblock %}
 {% block content %}
 
-<div class="container top">
+<div class="container">
+    <h1>Search movies</h1>
+    
+    <div class="search-form">
+        <form action="" method="get">
+            <div class="form-group">
+                <input type="text" name="title" value="{{ title }}" class="form-control" placeholder="Title or description">
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <select name="year_from" class="form-control">
+                                <option value="">Year from</option>
+                                {% for value in year_range %}
+                                    {% if year_from == value %}
+                                        <option value="{{ value}}" selected>{{ value}}</option>
+                                    {% else %}
+                                        <option value="{{ value}}">{{ value}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <select name="year_to" class="form-control">
+                                <option value="">Year to</option>
+                                {% for value in year_range %}
+                                    {% if year_to == value %}
+                                        <option value="{{ value}}" selected>{{ value}}</option>
+                                    {% else %}
+                                        <option value="{{ value}}">{{ value}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <select name="faff_rating_from" class="form-control">
+                                <option value="">FilmAffinity rating from</option>
+                                {% for value in rating_range %}
+                                    {% if faff_rating_from == value %}
+                                        <option value="{{ value}}" selected>{{ value}}</option>
+                                    {% else %}
+                                        <option value="{{ value}}">{{ value}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <select name="faff_rating_to" class="form-control">
+                                <option value="">FilmAffinity rating to</option>
+                                {% for value in rating_range %}
+                                    {% if faff_rating_to == value %}
+                                        <option value="{{ value}}" selected>{{ value}}</option>
+                                    {% else %}
+                                        <option value="{{ value}}">{{ value}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <select name="imdb_rating_from" class="form-control">
+                                <option value="">IMDb rating from</option>
+                                {% for value in rating_range %}
+                                    {% if imdb_rating_from == value %}
+                                        <option value="{{ value}}" selected>{{ value}}</option>
+                                    {% else %}
+                                        <option value="{{ value}}">{{ value}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <select name="imdb_rating_to" class="form-control">
+                                <option value="">IMDb rating to</option>
+                                {% for value in rating_range %}
+                                    {% if imdb_rating_to == value %}
+                                        <option value="{{ value}}" selected>{{ value}}</option>
+                                    {% else %}
+                                        <option value="{{ value}}">{{ value}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label">
+                <input class="form-check-input" name="watchlist" type="checkbox" {% if show_watchlist %}checked{% endif %}>
+                Show Watchlist
+              </label>
+              <label class="form-check-label">
+                <input class="form-check-input" name="history" type="checkbox" {% if show_history %}checked{% endif %}>
+                Show History
+              </label>
+              <label class="form-check-label">
+                <input class="form-check-input" name="blocklist" type="checkbox" {% if show_blocklist %}checked{% endif %}>
+                Show Blocklist
+              </label>
+            </div>
+            
+            <select name="order" class="form-control">
+                <option value="">Order by</option>
+                {% for order_option in order_options %}
+                    {% if order_option == order_by %}
+                    <option value="{{ order_option }}" selected>{{ order_option }}</option>
+                    {% else %}
+                    <option value="{{ order_option }}">{{ order_option }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+            <select name="asc_desc" class="form-control">
+                <option value="">ASC/DESC</option>
+                {% for asc_desc_option in asc_desc_options %}
+                    {% if asc_desc_option == asc_desc %}
+                    <option value="{{ asc_desc_option }}" selected>{{ asc_desc_option }}</option>
+                    {% else %}
+                    <option value="{{ asc_desc_option }}">{{ asc_desc_option }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+    
+    
     {% if search_query %}
-        <div class="rating-mode pull-right">Rating mode: <a href="#" class="rating-toggler">IMDb</a></div>
-        <h1>{{ count }} results for "<i>{{ search_query }}</i>"</h1>
+        <h3>{{ count }} results for "<i>{{ search_query }}</i>"</h3>
     {% endif %}
+    
     {% include 'movies.html' %}
 </div>
 

@@ -150,7 +150,7 @@ $(function() {
         };
         $.post(url, post_data, function(data) {
             if (data == 'saved') {
-                $(container).html('<a href="/movie/'+movie_id+'"><span class="glyphicon glyphicon-ok"></span></a>');
+                $(container).html('<a href="/movie/'+movie_id+'"><i class="fa fa-check" aria-hidden="true"></i></a>');
             } else {
             }
         });

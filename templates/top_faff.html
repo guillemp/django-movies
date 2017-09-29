@@ -2,9 +2,14 @@
 {% block title %}Top{% endblock %}
 {% block content %}
 
-<div class="container top">
-    <div class="rating-mode pull-right">Rating mode: FilmAffinity</div>
+<div class="container">
     <h1>Top Movies</h1>
+    <ul class="nav nav-tabs">
+        <li class="nav-item"><a class="nav-link active" href="/top/filmaffinity/">Active</a></li>
+        {% if user.is_authenticated %}
+        <li class="nav-item"><a class="nav-link" href="/top/filmaffinity/?mode=discover">Unseen</a></li>
+        {% endif %}
+    </ul>
     {% include 'movies.html' %}
 </div>
 

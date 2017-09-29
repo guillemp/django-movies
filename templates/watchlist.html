@@ -2,8 +2,7 @@
 {% block title %}{{ profile.username }}'s Watchlist{% endblock %}
 {% block content %}
 
-<div class="container top">
-    <div class="rating-mode pull-right">Rating mode: <a href="#" class="rating-toggler">IMDb</a></div>
+<div class="container">
     <h1>{% if user == profile %}My Watchlist{% else %}<a href="/{{ profile.username }}/">{{ profile.username }}</a>'s Watchlist{% endif %}</h1>
     {% include 'movies.html' %}
 </div>
