@@ -1,8 +1,10 @@
+from datetime import datetime
+from django.utils import timezone
 from main.models import Movie
 from bs4 import BeautifulSoup
 import requests
 
-movies = Movie.objects.exclude(faff_id__exact='').order_by('-id')
+movies = Movie.objects.exclude(faff_id__exact='').order_by('faff_date')
 total = len(movies)
 
 i = 1
@@ -31,14 +33,14 @@ for movie in movies:
         
         votes_out = ""
         if votes != movie.faff_votes:
-            votes_out = "%s => %s" % (movie.faff_votes, votes)
+            votes_out = "%s => %s (+%s)" % (movie.faff_votes, votes, (votes-movie.faff_votes))
             movie.faff_votes = votes
             changes = True
         
-        if changes:
-            movie.save()
+        movie.faff_date = timezone.now()
+        movie.save()
         
-        print pos, movie.faff_id, rating_out, votes_out
+        print pos, movie.faff_id, rating_out, votes_out, movie.title.encode('utf-8')
     except Exception, e:
         print movie.faff_id, str(e)
 
