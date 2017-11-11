@@ -17,6 +17,20 @@
                     <div class="clearfix"></div>
                     
                     <div class="movie-buttons-rating">
+                        {% if movie.imdb_rating %}
+                            <div class="imdb-rating" style="display:none;">
+                            {% if movie.imdb_rating > 6.9 %}
+                                <span class="badge badge-success">{{ movie.imdb_rating }}</span>
+                            {% elif movie.imdb_rating > 4.9 %}
+                                <span class="badge badge-warning">{{ movie.imdb_rating }}</span>
+                            {% else %}
+                                {% if movie.imdb_votes > 0 %}
+                                    <span class="badge badge-danger">{{ movie.imdb_rating }}</span>
+                                {% endif %}
+                            {% endif %}
+                            </div>
+                        {% endif %}
+                        
                         {% if movie.faff_rating %}
                             <div class="faff-rating">
                             {% if movie.faff_rating > 6.9 %}
@@ -30,21 +44,6 @@
                             {% endif %}
                             </div>
                         {% endif %}
-                        <!--
-                        {% if movie.imdb_rating %}
-                            <div class="imdb-rating">
-                            {% if movie.imdb_rating > 6.9 %}
-                                <span class="badge badge-success">{{ movie.imdb_rating }}</span>
-                            {% elif movie.imdb_rating > 4.9 %}
-                                <span class="badge badge-warning">{{ movie.imdb_rating }}</span>
-                            {% else %}
-                                {% if movie.imdb_votes > 0 %}
-                                    <span class="badge badge-danger">{{ movie.imdb_rating }}</span>
-                                {% endif %}
-                            {% endif %}
-                            </div>
-                        {% endif %}
-                        -->
                     </div>
                 </div>
                 {% endif %}

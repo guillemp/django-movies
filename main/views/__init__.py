@@ -172,6 +172,11 @@ def movie_view(request, movie_id):
     
     cast = movie.cast.all().order_by('moviecast__order')[:6]
     
+    if request.POST:
+        faff_id = request.POST.get("faff_id", None)
+        movie.faff_id = faff_id
+        movie.save()
+    
     return render(request, 'movie.html', {
         'movie': movie,
         'history_users': history_users,

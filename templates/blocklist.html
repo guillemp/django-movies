@@ -2,8 +2,7 @@
 {% block title %}{{ profile.username }}'s Blocklist{% endblock %}
 {% block content %}
 
-<div class="container top">
-    <div class="rating-mode pull-right">Rating mode: <a href="#" class="rating-toggler">IMDb</a></div>
+<div class="container">
     <h1>{% if user == profile %}My Blocklist{% else %}<a href="/{{ profile.username }}">{{ profile.username }}</a>'s Blocklist{% endif %}</h1>
     {% include 'movies.html' %}
 </div>
