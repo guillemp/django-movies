@@ -182,6 +182,31 @@ $(function() {
         return false;
     });
     
+    // UPDATE MOVIE RATINGS
+    $('.update-movie-rating-ajax').click(function(e) {
+        e.preventDefault();
+        var link = this;
+        var movie_id = $(this).data('movieId');
+        $(link).html('<i class="fa fa-spinner fa-spin"></i>');
+        var url = "/ajax/movie_update_rating/";
+        var csrftoken = getCookie('csrftoken');
+        var post_data = {
+            'movie_id': movie_id,
+            'csrfmiddlewaretoken': csrftoken,
+        };
+        $.post(url, post_data, function(data) {
+            if (data == 'updated') {
+                // reload page
+                location.reload();
+            } else {
+                $(link).html('<i class="fa fa-exclamation-triangle"></i>');
+            }
+        }).fail(function() {
+            $(link).html('<i class="fa fa-exclamation-triangle"></i>');
+        });
+        return false;
+    });
+    
     // ADD WATCHLIST IMPORTANT
     $('.add-important').click(function(e) {
         e.preventDefault();

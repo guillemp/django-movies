@@ -10,6 +10,7 @@ from django.db.models import Sum, Count
 from main.models import Movie, History, Watchlist, Blocklist, Person, MovieCast, Activity
 from django.utils import timezone
 from movies import config
+from bs4 import BeautifulSoup
 import tmdbsimple as tmdb
 import requests
 import random
@@ -148,3 +149,73 @@ def response_to_movie(request, movie, tmdb_movie):
             movie.save()
         except Exception, e:
             print movie.id, movie.title, str(e)
+
+def movie_update_rating(request):
+    if request.POST:
+        movie_id = request.POST.get('movie_id', None)
+        if movie_id:
+            try:
+                movie = Movie.objects.get(pk=movie_id)
+                _update_imdb_rating(movie)
+                _update_faff_rating(movie)
+                return HttpResponse("updated")
+            except Exception, e:
+                return HttpResponse(str(e))
+    return HttpResponse("error")
+
+
+def _update_imdb_rating(movie):
+    if not movie.imdb_id:
+        return
+    
+    try:
+        url = 'http://www.imdb.com/title/{}/'.format(movie.imdb_id)
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text, "html.parser")
+    
+        span = soup.findAll("span", { "itemprop" : "ratingValue" })
+        rating = float(span[0].contents[0])
+    
+        span = soup.findAll("span", { "itemprop" : "ratingCount" })
+        votes = span[0].contents[0]
+        votes = int(votes.replace(",", ""))
+        
+        if rating != movie.imdb_rating:
+            movie.imdb_rating = rating
+    
+        if votes != movie.imdb_votes:
+            movie.imdb_votes = votes
+        
+        movie.imdb_date = timezone.now()
+        movie.save()
+    
+    except Exception, e:
+        pass
+
+
+def _update_faff_rating(movie):
+    if not movie.faff_id:
+        return
+    
+    try:
+        url = 'http://www.filmaffinity.com/es/{}.html'.format(movie.faff_id)
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text, "html.parser")
+        
+        div = soup.findAll("div", { "itemprop" : "ratingValue" })
+        rating = float(div[0]['content'])
+        
+        span = soup.findAll("span", { "itemprop" : "ratingCount" })
+        votes = int(span[0]['content'])
+        
+        if rating != movie.faff_rating:
+            movie.faff_rating = rating
+        
+        if votes != movie.faff_votes:
+            movie.faff_votes = votes
+        
+        movie.faff_date = timezone.now()
+        movie.save()
+    
+    except Exception, e:
+        pass

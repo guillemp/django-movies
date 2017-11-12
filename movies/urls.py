@@ -42,6 +42,7 @@ urlpatterns = [
     url(r'^ajax/rating_mode/$', ajax.rating_mode, name='rating_mode'),
     url(r'^ajax/movie_save/$', add.movie_save, name='movie_save'),
     url(r'^ajax/movie_update/$', add.movie_update, name='movie_update'),
+    url(r'^ajax/movie_update_rating/$', add.movie_update_rating, name='movie_update_rating'),
     
     # api
     url(r'^api/v1/top/$', api.movies_top, name='api_top_movies'),

@@ -4,9 +4,10 @@
 {% load extras %}
 {% block content %}
 
-<div id="background-image" style="background:url({{ movie.backdrop }}) no-repeat top center; background-size: cover; -webkit-background-size: cover;-moz-background-size: cover; -o-background-size: cover;">
-    <div id="background-overlay"></div>
-</div>
+<!--
+<div id="background-image" style="background:url({{ movie.backdrop }}) no-repeat top center; background-size: cover; -webkit-background-size: cover;-moz-background-size: cover; -o-background-size: cover;"></div>
+<div id="background-overlay"></div>
+-->
 
 <div class="main-content">
     <div class="container">
@@ -16,6 +17,7 @@
                 <br/>&nbsp;
                 {% if user.is_authenticated and user.is_superuser %}
                     <p><a href="#" class="update-movie-ajax" data-movie-id="{{ movie.id }}">Update movie info</a></p>
+                    <p><a href="#" class="update-movie-rating-ajax" data-movie-id="{{ movie.id }}">Update movie ratings</a></p>
                     {% if not movie.faff_id %}
                         <p><a href="https://www.filmaffinity.com/es/search.php?stext={{ movie.title }}" target="_blank">Search on FilmAffinity</a></p>
                         <form action="" method="post">
@@ -43,46 +45,45 @@
                         {% if movie.runtime %}
                             <p class="overview"><span>Runtime:</span> {{ movie.runtime }} min.</p>
                         {% endif %}
+                        
                         <br/>
+                        
                         <p class="overview">
-                        <img src="/static/img/imdb.png" width="16" height="16" alt="IMDb" />&nbsp;
-                        <span>Rating:</span>
-                        {% if movie.imdb_rating > 6.9 %}
-                            <span class="label label-success">{{ movie.imdb_rating }}</span>
-                        {% elif movie.imdb_rating > 4.9 %}
-                            <span class="label label-warning">{{ movie.imdb_rating }}</span>
+                        <img src="/static/img/fa.png" width="24" height="24" alt="FA" />&nbsp;
+                        <span>Rating:</span> 
+                        {% if movie.faff_rating > 6.9 %}
+                            <span class="badge badge-success">{{ movie.faff_rating }}</span>
+                        {% elif movie.faff_rating > 4.9 %}
+                            <span class="badge badge-warning">{{ movie.faff_rating }}</span>
                         {% else %}
-                            {% if movie.imdb_votes > 0 %}
-                                <span class="label label-danger">{{ movie.imdb_rating }}</span>
+                            {% if movie.faff_rating > 0 %}
+                                <span class="badge badge-danger">{{ movie.faff_rating }}</span>
                             {% else %}
                                 N/A
                             {% endif %}
                         {% endif %}
-                        &nbsp; <span>Votes:</span> {% if movie.imdb_votes > 0 %}{{ movie.imdb_votes|intcomma }}{% else %}N/A{% endif %}</p>
+                        &nbsp; <span>Votes:</span> {% if movie.faff_votes > 0 %}{{ movie.faff_votes|intcomma }}{% else %}N/A{% endif %}
+                        &nbsp; <a href="http://www.filmaffinity.com/es/{{ movie.faff_id }}.html" target="_blank"><i class="fa fa-external-link"></i></a>
+                        </p>
                         
-                        {% if movie.faff_id %}
-                            <p class="overview">
-                            <img src="/static/img/fa.png" width="16" height="16" alt="FA" />&nbsp;
-                            <span>Rating:</span> 
-                            {% if movie.faff_rating > 6.9 %}
-                                <span class="label label-success">{{ movie.faff_rating }}</span>
-                            {% elif movie.faff_rating > 4.9 %}
-                                <span class="label label-warning">{{ movie.faff_rating }}</span>
+                        <p class="overview">
+                        <img src="/static/img/imdb.png" width="24" height="24" alt="IMDb" />&nbsp;
+                        <span>Rating:</span>
+                        {% if movie.imdb_rating > 6.9 %}
+                            <span class="badge badge-success">{{ movie.imdb_rating }}</span>
+                        {% elif movie.imdb_rating > 4.9 %}
+                            <span class="badge badge-warning">{{ movie.imdb_rating }}</span>
+                        {% else %}
+                            {% if movie.imdb_votes > 0 %}
+                                <span class="badge badge-danger">{{ movie.imdb_rating }}</span>
                             {% else %}
-                                {% if movie.faff_rating > 0 %}
-                                    <span class="label label-danger">{{ movie.faff_rating }}</span>
-                                {% else %}
-                                    N/A
-                                {% endif %}
+                                N/A
                             {% endif %}
-                            &nbsp; <span>Votes:</span> {% if movie.faff_votes > 0 %}{{ movie.faff_votes|intcomma }}{% else %}N/A{% endif %}</p>
                         {% endif %}
-                        <br/>
-                        <p class="overview"><span>IMDb:</span> <a href="http://www.imdb.com/title/{{ movie.imdb_id }}/" target="_blank">{{ movie.imdb_id }} <i class="fa fa-external-link"></i></a></p>
-                        <p class="overview"><span>TMDb:</span> <a href="https://www.themoviedb.org/movie/{{ movie.id }}/" target="_blank">{{ movie.id }} <i class="fa fa-external-link"></i></a></p>
-                        {% if movie.faff_id %}
-                            <p class="overview"><span>FA:</span> <a href="http://www.filmaffinity.com/es/{{ movie.faff_id }}.html" target="_blank">{{ movie.faff_id }} <i class="fa fa-external-link"></i></a></p>
-                        {% endif %}
+                        &nbsp; <span>Votes:</span> {% if movie.imdb_votes > 0 %}{{ movie.imdb_votes|intcomma }}{% else %}N/A{% endif %}
+                        &nbsp; <a href="http://www.imdb.com/title/{{ movie.imdb_id }}/" target="_blank"><i class="fa fa-external-link"></i></a>
+                        </p>
+                        
                         <br/>
                     </div>
                     <div class="col-sm-4 col-md-4">
@@ -104,8 +105,8 @@
                 <br/>
                 <div class="row">
                     {% for person in cast %}
-                    <div class="col">
-                        <a href="{{ person.url }}" title="{{ person.name }}" class="person-tooltip"><img src="{{ person.image }}" class="img-fluid" style="border-radius:50%;border:2px solid #FFF;margin-bottom:20px;"></a>
+                    <div class="col-md-2">
+                        <a href="{{ person.url }}" title="{{ person.name }}" class="person-tooltip"><img src="{{ person.image }}" class="img-fluid"></a>
                     </div>
                     {% endfor %}
                 </div>
