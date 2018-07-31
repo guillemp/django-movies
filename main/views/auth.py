@@ -26,7 +26,7 @@ def login_view(request):
         return redirect('/')
     
     errors = False
-    next = request.REQUEST.get('next', '')
+    next = request.GET.get('next', '')
     
     if request.method == 'POST':
         username = request.POST.get('username')

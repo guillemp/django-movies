@@ -21,6 +21,8 @@ tmdb.API_KEY = config.TMDB_KEY
 MOVIES_PER_PAGE = 30
 USERS_PER_PAGE = 30
 
+
+@login_required
 def index_view(request):
     if request.user.is_authenticated():
         # exclude blocklist movies
@@ -38,12 +40,15 @@ def index_view(request):
     except EmptyPage:
         movies = paginator.page(paginator.num_pages)
     
-    return render(request, 'index.html', {
+    context = {
         'movies': movies,
         'count': movies_list.count(),
-    })
+    }
+    return render(request, 'index.html', context)
+
 
 # latest
+@login_required
 def latest_view(request):
     movies_list = Movie.objects.all().order_by('-created')
     
@@ -56,12 +61,15 @@ def latest_view(request):
     except EmptyPage:
         movies = paginator.page(paginator.num_pages)
     
-    return render(request, 'latest.html', {
+    context = {
         'movies': movies,
         'count': movies_list.count(),
-    })
+    }
+    return render(request, 'latest.html', context)
+
 
 # search view
+@login_required
 def search_view(request):
     kwargs = {}
     movies_list = []
@@ -100,7 +108,6 @@ def search_view(request):
     if faff_rating_to:
         faff_rating_to = int(faff_rating_to)
         kwargs['faff_rating__lte'] = faff_rating_to
-    
     
     order_options = {
         "date": "release_date",
@@ -143,7 +150,7 @@ def search_view(request):
     except EmptyPage:
         movies = paginator.page(paginator.num_pages)
     
-    return render(request, 'search.html', {
+    context = {
         'movies': movies,
         'title': title,
         'year_from': year_from,
@@ -155,15 +162,18 @@ def search_view(request):
         'show_watchlist': show_watchlist,
         'show_history': show_history,
         'show_blocklist': show_blocklist,
-        'rating_range': range(5,10),
+        'rating_range': range(5, 10),
         'year_range': reversed(range(1970, 2019)),
         'order_options': order_options,
         'asc_desc_options': asc_desc_options,
         'order_by': order_by,
         'asc_desc': asc_desc,
-    })
+    }
+    return render(request, 'search.html', context)
+
 
 # movie detail
+@login_required
 def movie_view(request, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)
     
@@ -177,14 +187,17 @@ def movie_view(request, movie_id):
         movie.faff_id = faff_id
         movie.save()
     
-    return render(request, 'movie.html', {
+    context = {
         'movie': movie,
         'history_users': history_users,
         'watchlist_users': watchlist_users,
         'cast': cast,
-    })
+    }
+    return render(request, 'movie.html', context)
+
 
 # person detail
+@login_required
 def person_view(request, person_id):
     person = get_object_or_404(Person, pk=person_id)
     movies_list = person.movies.all().order_by('-release_date')
@@ -205,15 +218,18 @@ def person_view(request, person_id):
         history_count = request.user.history.filter(movie__cast=person).count()
         percentage = int(float(history_count)/float(movies_count)*100)
     
-    return render(request, 'person.html', {
+    context = {
         'person': person,
         'movies': movies,
         'count': movies_count,
         'history_count': history_count,
         'percentage': percentage,
-    })
+    }
+    return render(request, 'person.html', context)
 
-#users
+
+# users
+@login_required
 def users_view(request):
     query = request.GET.get('query', '')
     if query:
@@ -229,14 +245,17 @@ def users_view(request):
         users = paginator.page(1)
     except EmptyPage:
         users = paginator.page(paginator.num_pages)
-
-    return render(request, 'users.html', {
+    
+    context = {
         'users': users,
         'users_count': users_list.count(),
         'query': query,
-    })
+    }
+    return render(request, 'users.html', context)
+
 
 # top imdb
+@login_required
 def top_imdb_view(request):
     if request.GET.get('mode', '') == 'discover':
         seen_movies = History.objects.filter(user=request.user).values_list('movie', flat=True)
@@ -253,12 +272,15 @@ def top_imdb_view(request):
     except EmptyPage:
         movies = paginator.page(paginator.num_pages)
     
-    return render(request, 'top.html', {
+    context = {
         'movies': movies,
         'count': movies_list.count(),
-    })
+    }
+    return render(request, 'top.html', context)
+
 
 # top FA
+@login_required
 def top_fa_view(request):
     if request.GET.get('mode', '') == 'discover':
         seen_movies = History.objects.filter(user=request.user).values_list('movie', flat=True)
@@ -275,12 +297,15 @@ def top_fa_view(request):
     except EmptyPage:
         movies = paginator.page(paginator.num_pages)
     
-    return render(request, 'top_faff.html', {
+    context = {
         'movies': movies,
         'count': movies_list.count(),
-    })
+    }
+    return render(request, 'top_faff.html', context)
+
 
 # profile
+@login_required
 def profile_view(request, username):
     profile = get_object_or_404(User, username=username)
     history_count = profile.history.count()
@@ -288,15 +313,18 @@ def profile_view(request, username):
     blocklist_count = profile.blocklist.count()
     added_count = profile.added_movies.count()
     
-    return render(request, 'profile.html', {
+    context = {
         'profile': profile,
         'history_count': history_count,
         'watchlist_count': watchlist_count,
         'blocklist_count': blocklist_count,
         'added_count': added_count,
-    })
+    }
+    return render(request, 'profile.html', context)
+
 
 # history
+@login_required
 def history_view(request, username):
     profile = get_object_or_404(User, username=username)
     
@@ -317,14 +345,17 @@ def history_view(request, username):
         sum_runtime = Movie.objects.filter(id__in=history_ids).aggregate(Sum('runtime'))
         total_runtime = int(sum_runtime['runtime__sum']) / 60
     
-    return render(request, 'history.html', {
+    context = {
         'profile': profile,
         'movies': movies,
         'count': movies_list.count(),
         'total_runtime': total_runtime,
-    })
+    }
+    return render(request, 'history.html', context)
+
 
 # watchlist
+@login_required
 def watchlist_view(request, username):
     profile = get_object_or_404(User, username=username)
     
@@ -347,13 +378,16 @@ def watchlist_view(request, username):
     except EmptyPage:
         movies = paginator.page(paginator.num_pages)
     
-    return render(request, 'watchlist.html', {
+    context = {
         'profile': profile,
         'movies': movies,
         'count': watchlist.count(),
-    })
+    }
+    return render(request, 'watchlist.html', context)
+
 
 # blocklist
+@login_required
 def blocklist_view(request, username):
     profile = get_object_or_404(User, username=username)
     
@@ -369,13 +403,16 @@ def blocklist_view(request, username):
     except EmptyPage:
         movies = paginator.page(paginator.num_pages)
     
-    return render(request, 'blocklist.html', {
+    context = {
         'profile': profile,
         'movies': movies,
         'count': blocklist.count(),
-    })
+    }
+    return render(request, 'blocklist.html', context)
+
 
 # added
+@login_required
 def added_view(request, username):
     profile = get_object_or_404(User, username=username)
     
@@ -390,11 +427,13 @@ def added_view(request, username):
     except EmptyPage:
         movies = paginator.page(paginator.num_pages)
     
-    return render(request, 'added.html', {
+    context = {
         'profile': profile,
         'movies': movies,
         'count': movies_list.count(),
-    })
+    }
+    return render(request, 'added.html', context)
+
 
 # discover
 @login_required
@@ -442,15 +481,18 @@ def discover_view(request):
         sql_query = "SELECT id, year(release_date) AS g FROM main_movie WHERE id NOT IN ({}) GROUP BY g ORDER BY g DESC".format(aaa)
         years = Movie.objects.raw(sql_query)
     
-    return render(request, 'discover.html', {
+    context = {
         'movies': movies,
         'count': movies_list.count(),
         'get_order': get_order,
         'order_options': order_options.keys(),
         'years': years,
         'get_year': int(get_year),
-    })
+    }
+    return render(request, 'discover.html', context)
 
+
+@login_required
 def activity_view(request):
     activity_list = Activity.objects.all().order_by('-created')
     
@@ -463,6 +505,7 @@ def activity_view(request):
     except EmptyPage:
         activity = paginator.page(paginator.num_pages)
     
-    return render(request, 'activity.html', {
+    context = {
         "activity": activity
-    })
+    }
+    return render(request, 'activity.html', context)
