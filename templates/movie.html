@@ -9,79 +9,89 @@
 <div id="background-overlay"></div>
 -->
 
-<div class="main-content">
+<div class="main-content" style="margin-top:30px">
     <div class="container">
         <div class="row" id="movie-{{ movie.id }}">
             <div class="col-xs-5 col-sm-3 col-md-3">
                 <img src="{{ movie.poster }}" id="movie-poster" class="img-responsive img-thumbnail{% if user.is_authenticated and movie|is_important:user %} important{% endif %}" alt="{{ movie.title }}">
+                
                 <br/>&nbsp;
+                
                 {% if user.is_authenticated and user.is_superuser %}
-                    <p><a href="#" class="update-movie-ajax" data-movie-id="{{ movie.id }}">Update movie info</a></p>
-                    <p><a href="#" class="update-movie-rating-ajax" data-movie-id="{{ movie.id }}">Update movie ratings</a></p>
-                    {% if not movie.faff_id %}
-                        <p><a href="https://www.filmaffinity.com/es/search.php?stext={{ movie.title }}" target="_blank">Search on FilmAffinity</a></p>
-                        <form action="" method="post">
-                            {% csrf_token %}
-                            <input type="text" name="faff_id">
-                            <input type="submit" value="Save">
-                        </form>
-                    {% endif %}
+                    <div class="well">
+                        <p><a href="#" class="update-movie-ajax" data-movie-id="{{ movie.id }}">Update movie info</a></p>
+                        <p><a href="#" class="update-movie-rating-ajax" data-movie-id="{{ movie.id }}">Update movie ratings</a></p>
+                        {% if not movie.faff_id %}
+                            <p><a class="" href="https://www.filmaffinity.com/es/search.php?stext={{ movie.title }}" target="_blank">Search on FilmAffinity</a></p>
+                            <p></p>
+                            <form class="form-inline" action="" method="post" autocomplete="off">
+                                {% csrf_token %}
+                                <input class="form-control" type="text" name="faff_id" placeholder="FilmAffinity ID">
+                                <input class="btn btn-default" type="submit" value="Save">
+                            </form>
+                        {% endif %}
+                    </div>
                 {% endif %}
             </div>
             
             <div class="col-xs-12 col-sm-12 col-md-7">
-                <h1 class="movie-title">{{ movie.title }} <small><a href="/search/?year_from={{ movie.release_date|date:'Y' }}&amp;year_to={{ movie.release_date|date:'Y' }}">{{ movie.release_date|date:"Y" }}</a></small>{% if user.is_authenticated and movie|in_watchlist:user %} <a href="#" class="add-important" data-movie-id="{{ movie.id }}">{% if movie|is_important:user %}<i class="fa fa-star"></i>{% else %}<i class="fa fa-star-o"></i>{% endif %}</a>{% endif %}</h1>
-                <h3 class="movie-tagline">{{ movie.tagline }}</h3>
-                <p class="overview">{{ movie.overview }}</p>
+                <h1 class="page-header">{{ movie.title }} <small>{{ movie.release_date|date:"Y" }}</small>{% if user.is_authenticated and movie|in_watchlist:user %} <a href="#" class="add-important" data-movie-id="{{ movie.id }}">{% if movie|is_important:user %}<i class="fa fa-star"></i>{% else %}<i class="fa fa-star-o"></i>{% endif %}</a>{% endif %}</h1>
+                <p class="lead">{{ movie.tagline }}</p>
+                
+                <div class="row">
+                    <div class="col-sm-8 col-md-8">
+                        <p class="text-justify">{{ movie.overview }}</p>
+                    </div>
+                </div>
                 
                 <br/>
                 
                 <div class="row">
                     <div class="col-sm-8 col-md-8">
                         {% if movie.original_language != 'en' %}
-                            <p class="overview"><span>Original title:</span> {{ movie.original_title }}</p>
+                            <p class="overview"><strong>Original title:</strong> {{ movie.original_title }}</p>
                         {% endif %}
-                        <p class="overview"><span>Release:</span> {{ movie.release_date }}</p>
+                        <p class="overview"><strong>Release:</strong> {{ movie.release_date }}</p>
                         {% if movie.runtime %}
-                            <p class="overview"><span>Runtime:</span> {{ movie.runtime }} min.</p>
+                            <p class="overview"><strong>Runtime:</strong> {{ movie.runtime }} min.</p>
                         {% endif %}
                         
                         <br/>
                         
                         <p class="overview">
                         <img src="/static/img/fa.png" width="24" height="24" alt="FA" />&nbsp;
-                        <span>Rating:</span> 
+                        <strong>Rating:</strong> 
                         {% if movie.faff_rating > 6.9 %}
-                            <span class="badge badge-success">{{ movie.faff_rating }}</span>
+                            <span class="label label-success">{{ movie.faff_rating }}</span>
                         {% elif movie.faff_rating > 4.9 %}
-                            <span class="badge badge-warning">{{ movie.faff_rating }}</span>
+                            <span class="label label-warning">{{ movie.faff_rating }}</span>
                         {% else %}
                             {% if movie.faff_rating > 0 %}
-                                <span class="badge badge-danger">{{ movie.faff_rating }}</span>
+                                <span class="label label-danger">{{ movie.faff_rating }}</span>
                             {% else %}
                                 N/A
                             {% endif %}
                         {% endif %}
-                        &nbsp; <span>Votes:</span> {% if movie.faff_votes > 0 %}{{ movie.faff_votes|intcomma }}{% else %}N/A{% endif %}
-                        &nbsp; <a href="http://www.filmaffinity.com/es/{{ movie.faff_id }}.html" target="_blank"><i class="fa fa-external-link"></i></a>
+                        &nbsp; <strong>Votes:</strong> {% if movie.faff_votes > 0 %}{{ movie.faff_votes|intcomma }}{% else %}N/A{% endif %}
+                        &nbsp; <a href="http://www.filmaffinity.com/es/{{ movie.faff_id }}.html" target="_blank"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
                         </p>
                         
                         <p class="overview">
                         <img src="/static/img/imdb.png" width="24" height="24" alt="IMDb" />&nbsp;
-                        <span>Rating:</span>
+                        <strong>Rating:</strong>
                         {% if movie.imdb_rating > 6.9 %}
-                            <span class="badge badge-success">{{ movie.imdb_rating }}</span>
+                            <span class="label label-success">{{ movie.imdb_rating }}</span>
                         {% elif movie.imdb_rating > 4.9 %}
-                            <span class="badge badge-warning">{{ movie.imdb_rating }}</span>
+                            <span class="label label-warning">{{ movie.imdb_rating }}</span>
                         {% else %}
                             {% if movie.imdb_votes > 0 %}
-                                <span class="badge badge-danger">{{ movie.imdb_rating }}</span>
+                                <span class="label label-danger">{{ movie.imdb_rating }}</span>
                             {% else %}
                                 N/A
                             {% endif %}
                         {% endif %}
-                        &nbsp; <span>Votes:</span> {% if movie.imdb_votes > 0 %}{{ movie.imdb_votes|intcomma }}{% else %}N/A{% endif %}
-                        &nbsp; <a href="http://www.imdb.com/title/{{ movie.imdb_id }}/" target="_blank"><i class="fa fa-external-link"></i></a>
+                        &nbsp; <strong>Votes:</strong> {% if movie.imdb_votes > 0 %}{{ movie.imdb_votes|intcomma }}{% else %}N/A{% endif %}
+                        &nbsp; <a href="http://www.imdb.com/title/{{ movie.imdb_id }}/" target="_blank"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
                         </p>
                         
                         <br/>
@@ -106,7 +116,7 @@
                 <div class="row">
                     {% for person in cast %}
                     <div class="col-md-2">
-                        <a href="{{ person.url }}" title="{{ person.name }}" class="person-tooltip"><img src="{{ person.image }}" class="img-fluid"></a>
+                        <a href="{{ person.url }}" title="{{ person.name }}" class="person-tooltip"><img src="{{ person.image }}" class="img-responsive"></a>
                     </div>
                     {% endfor %}
                 </div>

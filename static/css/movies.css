@@ -1,0 +1,57 @@
+body { padding-top: 70px; }
+
+.footer {margin-top:20px;border-top:1px solid #e7e7e7;padding:20px 0;}
+.footer p {margin:0;padding:0;text-align:center;}
+
+.page-header {
+    margin: 0 0 40px;
+}
+
+.copy-left {
+    display: inline-block;
+    text-align: right;
+    margin: 0px;
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: 'FlipH'; 
+}
+
+#search-group {position:relative;}
+#search-loading {display:none;color:white;position:absolute;right:10px;top:10px;}
+#search-results {box-shadow:0 2px 8px rgba(0, 0, 0, 0.1);position:absolute;top:42px;width:300px;background-color:#fff;border:1px solid #e7e7e7;display:none;z-index:50000;}
+#search-results ul {margin:0;padding:0;list-style:none}
+#search-results li a {display:block;margin:0;padding:5px 10px;color:#333;border-bottom:1px solid #e7e7e7;}
+#search-results li a:hover {color:white;text-decoration:none;background:#171717}
+#search-results li a:after {clear:both;display:table;content:" ";}
+#search-results img {float:left;margin-right:10px;width:40px;height:60px;}
+
+.poster-thumnail {position:relative;margin-bottom:30px;box-shadow:0 2px 8px rgba(0, 0, 0, 0.1);}
+.poster {/*box-shadow:0 0 8px 0 #ccc;*/}
+.movie-buttons {background:#343a40;position:relative;}
+.movie-buttons ul {list-style:none;margin:0;padding:0;}
+.movie-buttons ul li {margin:0;padding:0;}
+.movie-buttons li a {float:left;display:block;margin:0;color:rgba(255,255,255,0.6);padding:2px 8px;text-align:center;}
+.movie-buttons li a:hover {text-decoration:none;}
+.movie-buttons-rating {position:absolute;top:0px;right:6px;}
+
+.big-buttons {background:none;}
+.big-buttons ul {list-style:none;margin:0;padding:0;}
+.big-buttons ul li {margin:0;padding:0;}
+.big-buttons li a {float:none;display:block;padding:8px 0;margin-bottom:10px;border-radius:3px;text-align:center;}
+.big-buttons li a:hover {text-decoration:none;}
+.big-buttons .add-remove-history {border:1px solid #16a085;color:#16a085;}
+.big-buttons .add-remove-history:hover {background:#16a085;color:white}
+.big-buttons .add-remove-watchlist {border:1px solid #8e44ad;color:#8e44ad;}
+.big-buttons .add-remove-watchlist:hover {background:#8e44ad;color:white}
+.big-buttons .add-remove-blocklist {border:1px solid #e74c3c;color:#e74c3c;}
+.big-buttons .add-remove-blocklist:hover {background:#e74c3c;color:white}
+
+.add-remove-history:hover {background:#1d1d1d;color:#16a085}
+.history-active, .history-active:hover {background:#16a085 !important;color:white !important}
+.add-remove-watchlist:hover {background:#1d1d1d;color:#8e44ad}
+.watchlist-active, .watchlist-active:hover {background:#8e44ad !important;color:white !important}
+.add-remove-blocklist:hover {background:#1d1d1d;color:#e74c3c}
+.blocklist-active, .blocklist-active:hover {background:#e74c3c !important;color:white !important}

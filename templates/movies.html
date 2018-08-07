@@ -34,12 +34,12 @@
                         {% if movie.faff_rating %}
                             <div class="faff-rating">
                             {% if movie.faff_rating > 6.9 %}
-                                <span class="badge badge-success">{{ movie.faff_rating }}</span>
+                                <span class="label label-success">{{ movie.faff_rating }}</span>
                             {% elif movie.faff_rating > 4.9 %}
-                                <span class="badge badge-warning">{{ movie.faff_rating }}</span>
+                                <span class="label label-warning">{{ movie.faff_rating }}</span>
                             {% else %}
                                 {% if movie.faff_rating > 0 %}
-                                    <span class="badge badge-danger">{{ movie.faff_rating }}</span>
+                                    <span class="label label-danger">{{ movie.faff_rating }}</span>
                                 {% endif %}
                             {% endif %}
                             </div>
@@ -63,7 +63,6 @@
             </div>
         </div>
         
-        {% comment %}
         {% if forloop.counter|divisibleby:2 %}
         <!-- every 2nd col -->
         <div class="visible-xs clearfix divider"></div>
@@ -79,7 +78,6 @@
         <div class="clearfix d-none d-lg-block"></div>
         <div class="visible-xs visible-md visible-lg clearfix divider"></div>
         {% endif %}
-        {% endcomment %}
         
     {% endfor %}
 </div>

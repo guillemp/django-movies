@@ -4,7 +4,9 @@
 {% block content %}
 
 <div class="container top">
-    <h1>{% if user == profile %}My History{% else %}<a href="/{{ profile.username }}">{{ profile.username }}</a>'s History{% endif %} <span class="badge badge-light pull-right">{{ total_runtime|intcomma }} hours</span></h1>
+    <div class="page-header">
+        <h1>{% if user == profile %}My History{% else %}<a href="/{{ profile.username }}">{{ profile.username }}</a>'s History{% endif %} <small>{{ total_runtime|intcomma }} hours</small></h1>
+    </div>
     {% include 'movies.html' %}
 </div>
 
